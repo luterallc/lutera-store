@@ -340,7 +340,9 @@ function checkoutURL(){
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAll()});
   var TIERQ={'42743984324693':'Buy One \u00b7 30-day supply','42744068243541':'Buy 2 Get 1 FREE \u00b7 90-day supply','42744094752853':'Buy 3 Get 2 FREE \u00b7 150-day supply'};
   var cartEmpty=false;
+  try{cartEmpty=sessionStorage.getItem('luteraCartEmpty')==='1'}catch(e){}
   function setCount(n){document.querySelectorAll('.cartcount').forEach(function(c){c.textContent=n;c.style.display=n?'':'none'})}
+  if(cartEmpty)setCount(0);
   function renderCart(){
     var dr=document.getElementById('cartDrawer');
     document.getElementById('cdEmpty').style.display=cartEmpty?'flex':'none';
@@ -365,10 +367,10 @@ function checkoutURL(){
     if(co&&typeof checkoutURL==='function')co.href=checkoutURL();
   }
   document.addEventListener('click',function(ev){
-    if(ev.target.closest&&ev.target.closest('#cdRemove')){cartEmpty=true;setCount(0);renderCart();}
+    if(ev.target.closest&&ev.target.closest('#cdRemove')){cartEmpty=true;try{sessionStorage.setItem('luteraCartEmpty','1')}catch(e){}setCount(0);renderCart();}
   });
   document.querySelectorAll('.btn-atc').forEach(function(el){
-    el.addEventListener('click',function(){if(cartEmpty){cartEmpty=false;setCount(1);}});
+    el.addEventListener('click',function(){cartEmpty=false;try{sessionStorage.removeItem('luteraCartEmpty')}catch(e){}setCount(1);});
   });
   var icons=document.querySelectorAll('.hicon');
   icons.forEach(function(ic){
