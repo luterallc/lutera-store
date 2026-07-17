@@ -242,13 +242,17 @@ document.querySelectorAll('.pcard').forEach(function(cd){
   setTimeout(function(){show();setInterval(show,30000)},9000);
 })();
 
-// ATC -> real Shopify checkout
+// ATC -> instant Shopify checkout with the selected bundle
+function checkoutURL(){
+  var t=document.querySelector('.tiers .tier.selected');
+  var v=t?t.getAttribute('data-variant'):'42744068243541';
+  return 'https://ru1ttu-nw.myshopify.com/cart/'+v+':1';
+}
 (function(){
-  var SHOP='https://trylutera.com/products/lutera-2-in-1-advanced-eye-formula';
   document.querySelectorAll('.btn-atc').forEach(function(b){
     b.addEventListener('click',function(){
       b.innerHTML='<span class="l1">✓ Taking you to secure checkout…</span>';
-      setTimeout(function(){window.location.href=SHOP},450);
+      setTimeout(function(){window.location.href=checkoutURL()},450);
     });
   });
 })();
@@ -324,7 +328,7 @@ document.querySelectorAll('.pcard').forEach(function(cd){
     '<div class="cd-ship">&#127881; You unlocked <b>FREE SHIPPING</b> + the Free At-Home Eye Exam!<div class="csbar"><span></span></div></div>'+
     '<div class="cd-body"><div class="cd-item"><img src="images/pouch-perfect.png" alt=""><div><b>Lutera Triple Carotenoid Formula</b><span class="cdq">Buy 2 Get 1 FREE &middot; 90-day supply</span></div><span class="cdp" id="cdPrice">$54.99</span></div>'+'<div class="cd-gift"><span class="gico">&#128065;</span><div><b>FREE At-Home Eye Exam</b><span class="gsub">60-second vision benchmark &middot; instant access</span></div><div class="gprice"><span class="gwas">$9.99</span><span class="free-badge">FREE</span></div></div>'+'<div class="cd-gift" id="cdShipGift"><span class="gico">&#128666;</span><div><b>FREE Priority Shipping</b><span class="gsub">Arrives in 5&ndash;7 business days</span></div><div class="gprice"><span class="gwas">$5.99</span><span class="free-badge">FREE</span></div></div></div>'+
     '<div class="cd-foot"><div class="cd-savings"><span>&#127881; You\'re saving today</span><span class="amt" id="cdSave">$140.96</span></div>'+'<div class="cd-sub"><span>Subtotal</span><span id="cdSub">$54.99</span></div>'+
-    '<a class="btn big" href="https://trylutera.com/products/lutera-2-in-1-advanced-eye-formula" style="text-align:center;display:block">CHECKOUT &rarr;</a>'+
+    '<a class="btn big" id="cdCheckout" href="https://ru1ttu-nw.myshopify.com/cart/42744068243541:1" style="text-align:center;display:block">CHECKOUT &rarr;</a>'+
     '<div class="cd-note">&#128737; 90-Day Money-Back Guarantee &middot; Secure checkout</div></div></div>';
   document.body.appendChild(wrap);
   var back=document.getElementById('ovBack');
@@ -353,6 +357,8 @@ document.querySelectorAll('.pcard').forEach(function(cd){
           var w=document.querySelector('.buybox .js-was');
           if(w){var save=(parseFloat(w.textContent.replace('$',''))-parseFloat(p.textContent.replace('$','')))+9.99+(big?5.99:0);
           document.getElementById('cdSave').textContent='$'+save.toFixed(2);}}
+        var co=document.getElementById('cdCheckout');
+        if(co&&typeof checkoutURL==='function')co.href=checkoutURL();
         open('cartDrawer');
       }
     });
