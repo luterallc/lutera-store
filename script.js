@@ -107,22 +107,24 @@ document.querySelectorAll('.tab-btns button').forEach(function(b){
   });
 })();
 
-// Reviews — continuous sideways marquee of wide cards (new cast)
+// Reviews — continuous photo-card marquee (photo + quote + name)
 (function(){
   var track=document.getElementById('revTrack');if(!track)return;
   var R=[
-    {n:'Mark H.',i:'images/av-mark.webp',p:'Working late meant driving home in the dark, and the glare from oncoming traffic genuinely stressed me out. By week five the halos around headlights had softened noticeably. I\'m more relaxed behind the wheel, and my eyes don\'t feel wrung out when I get home.'},
-    {n:'Tyler J.',i:'images/av-tyler.webp',p:'Between work and my tablet I\'m on screens twelve hours a day, and my eyes paid the price — dry, heavy, aching by dinner. Three weeks in, the end-of-day burn started fading. Six weeks in, I realized I hadn\'t used eye drops in days.'},
-    {n:'Janet C.',i:'images/av-janet.webp',p:'I didn\'t tell my optometrist I\'d started anything new. At my checkup she said my macular pigment measurement looked better than last year and asked what changed. When I told her about Lutera, she looked at the label and said keep going.'},
-    {n:'Amy R.',i:'images/av-amy.webp',p:'Two years of pharmacy eye vitamins and my husband had nothing to show for it. I did my research and learned most brands skip meso-zeaxanthin entirely. We switched to Lutera and within weeks his reading got easier. I wish we\'d found this sooner.'},
-    {n:'Colleen M.',i:'images/av-colleen.webp',p:'Thirty years in nursing means I know how to read a label. Lutera is the real thing: all three macular carotenoids at studied doses plus astaxanthin, delivered in oil. Three months in, my eyes are the freshest they\'ve felt in years.'},
-    {n:'Paul G.',i:'images/av-paul.webp',p:'Gummies, tablets, vision blends — I\'ve bought them all and felt nothing. I tried Lutera expecting the same story. Within a few weeks my eyes felt noticeably less tired. Four months in and I haven\'t missed a day. One softgel. That\'s it.'}
+    {n:'Carol B.',i:'images/ugc-carol.webp',p:'My doctor said try Lutera. Two weeks in, the morning newspaper feels easier on my eyes and movie night with my grandkids is fun again!'},
+    {n:'Amy R.',i:'images/ugc-amy.webp',p:'Two years of pharmacy eye vitamins and my husband had nothing to show for it. Most brands skip meso-zeaxanthin entirely. We switched to Lutera and within weeks his reading got easier.'},
+    {n:'Frank D.',i:'images/ugc-frank.webp',p:'Retirement was supposed to mean more reading, not more eye strain. A month into Lutera, my evening chapters don\'t wear my eyes out anymore. Simple as that.'},
+    {n:'Tyler J.',i:'images/ugc-tyler.webp',p:'I\'m on screens twelve hours a day and my eyes paid the price — dry, heavy, aching by dinner. Three weeks in, the end-of-day burn started fading. I haven\'t used eye drops in days.'},
+    {n:'Colleen M.',i:'images/ugc-colleen.webp',p:'Thirty years in nursing means I know how to read a label. Lutera is the real thing: all three macular carotenoids plus astaxanthin, delivered in oil. My eyes are the freshest they\'ve felt in years.'},
+    {n:'Mark H.',i:'images/ugc-mark.webp',p:'Driving home in the dark genuinely stressed me out. By week five the glare from oncoming headlights had softened noticeably. I\'m more relaxed behind the wheel.'},
+    {n:'Paul G.',i:'images/ugc-paul.webp',p:'Gummies, tablets, vision blends — I\'ve bought them all and felt nothing. Within a few weeks of Lutera my eyes felt noticeably less tired. Four months in, haven\'t missed a day.'},
+    {n:'Janet C.',i:'images/ugc-janet.webp',p:'I didn\'t tell my optometrist I\'d started anything new. At my checkup she said my numbers looked better than last year and asked what changed. She said keep going.'}
   ];
   var html='';
   for(var rep=0;rep<2;rep++){
     R.forEach(function(r){
-      html+='<div class="rev-card rc4"><div class="rc3-row"><img class="rc3-av" src="'+r.i+'" alt=""><p class="rc3-quote">&ldquo;'+r.p+'&rdquo;</p></div>'+
-        '<div class="rc3-foot"><span class="rc3-name">'+r.n+'</span><span class="stars">★★★★★</span></div></div>';
+      html+='<div class="pcard"><img src="'+r.i+'" alt=""><p class="pq">&ldquo;'+r.p+'&rdquo;</p>'+
+        '<div class="pf"><span class="pn">'+r.n+'</span><span class="stars">★★★★★</span></div></div>';
     });
   }
   track.classList.add('rev-marq');

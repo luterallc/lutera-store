@@ -1222,3 +1222,13 @@ header.site .header-icons{position:absolute !important;right:24px;top:50%;transf
 .rc4 .rc3-foot{margin-top:auto;padding-top:12px}
 @media(max-width:919px){.rev-card.rc4{width:305px;flex:0 0 305px;margin-right:14px}.rev-marq .rm-track{animation-duration:60s}}
 @keyframes rmscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* live17: big photo-review marquee — 5 across, whole photo visible */
+.pcard{width:268px;flex:0 0 268px;margin-right:18px;background:var(--white);border-radius:14px;overflow:hidden;border:1px solid var(--line);display:flex;flex-direction:column;box-shadow:0 4px 14px rgba(43,35,20,.06)}
+.pcard img{width:100%;height:auto;display:block}
+.pcard .pq{font-size:13px;line-height:1.58;color:#3D4149;margin:0;padding:12px 14px 0}
+.pcard .pf{display:flex;align-items:center;gap:10px;padding:10px 14px 14px;margin-top:auto}
+.pcard .pn{font-style:italic;font-weight:700;color:#6E7378;font-size:13px;white-space:nowrap}
+.pcard .pf .stars{color:var(--accent);font-size:12px;letter-spacing:2px;white-space:nowrap}
+.rev-marq .rm-track{animation-duration:80s}
+@media(max-width:919px){.pcard{width:235px;flex:0 0 235px;margin-right:14px}.rev-marq .rm-track{animation-duration:65s}}
