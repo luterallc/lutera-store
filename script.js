@@ -452,7 +452,7 @@ function checkoutURL(){
   function ord(n){var v=n%100;if(v>=11&&v<=13)return n+'th';switch(n%10){case 1:return n+'st';case 2:return n+'nd';case 3:return n+'rd';default:return n+'th'}}
   function fmt(d){return DAYS[d.getDay()]+', '+MON[d.getMonth()]+' '+ord(d.getDate())}
   var t=new Date();
-  var d1=new Date(t.getFullYear(),t.getMonth(),t.getDate()+7);
-  var d2=new Date(t.getFullYear(),t.getMonth(),t.getDate()+15);
+  var d1=new Date(t.getFullYear(),t.getMonth(),t.getDate()+4);
+  var d2=new Date(t.getFullYear(),t.getMonth(),t.getDate()+9);
   a.textContent=fmt(d1);b.textContent=fmt(d2);
 })();
