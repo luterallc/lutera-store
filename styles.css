@@ -1366,3 +1366,10 @@ section{padding:38px 0}
   .gseal{margin-top:2px}
   .gseal img{width:104px}
 }
+
+/* live30: payment badge row — reference order, bigger and crisper */
+.payrow{gap:9px}
+.payrow .payb svg{height:34px;border-radius:6px;box-shadow:0 2px 6px rgba(20,16,8,.12)}
+.payrow .payb{transition:transform .18s ease}
+.payrow .payb:hover{transform:translateY(-2px)}
+@media(max-width:919px){.payrow{gap:7px}.payrow .payb svg{height:29px}}
