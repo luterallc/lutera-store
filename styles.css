@@ -1176,3 +1176,7 @@ header.site .header-icons{position:absolute !important;right:24px;top:50%;transf
 .ship-est svg{width:22px;height:22px;color:var(--accent);flex:0 0 22px;margin-top:1px}
 .ship-est b{color:#1E1A12;font-weight:800}
 .order-toast{touch-action:pan-y}
+
+/* live9: circular review avatar per reference */
+.bb-review .bbr-av{border-radius:50%;width:56px;height:56px}
+.rc3 .rc3-av{border-radius:50%}
