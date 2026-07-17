@@ -123,9 +123,9 @@ document.querySelectorAll('.tab-btns button').forEach(function(b){
     track.innerHTML='';
     for(var k=0;k<per;k++){
       var r=R[(page+k)%R.length];
-      var d=document.createElement('div');d.className='rev-card rc2';
-      d.innerHTML='<div class="stars">★ ★ ★ ★ ★</div><h3>'+r.t+'</h3><p>'+r.p+'</p>'+
-        '<div class="rc-foot"><span class="rc-name"><img src="'+r.i+'" alt="">'+r.n+'</span><span class="rc-verified">✓ VERIFIED CUSTOMER</span></div>';
+      var d=document.createElement('div');d.className='rev-card rc3';
+      d.innerHTML='<img class="rc3-av" src="'+r.i+'" alt=""><p class="rc3-quote">&ldquo;'+r.p+'&rdquo;</p>'+
+        '<div class="rc3-foot"><span class="rc3-name">'+r.n+'</span><span class="stars">★ ★ ★ ★ ★</span></div>';
       track.appendChild(d);
     }
     if(dots){
@@ -229,6 +229,8 @@ document.querySelectorAll('.pcard').forEach(function(cd){
   var el=document.createElement('div');
   el.className='order-toast';
   document.body.appendChild(el);
+  // shuffle so a returning visitor never sees the same name first
+  for(var s=ORDERS.length-1;s>0;s--){var j=Math.floor(Math.random()*(s+1));var tmp=ORDERS[s];ORDERS[s]=ORDERS[j];ORDERS[j]=tmp;}
   var i=0;
   function show(){
     var o=ORDERS[i%ORDERS.length];i++;

@@ -1152,3 +1152,11 @@ header.site .header-icons{position:absolute !important;right:24px;top:50%;transf
 .cd-empty b{font-size:17px;color:var(--dark)}
 .cd-empty span:not(.ce-ico){color:#6B7280;font-size:13.5px}
 .cd-empty .btn{margin-top:6px}
+
+/* live6: review cards match reference — face top-left, quote, name + stars */
+.rev-card.rc3{display:block}
+.rc3 .rc3-av{float:left;width:54px;height:54px;border-radius:10px;object-fit:cover;margin:0 12px 6px 0}
+.rc3 .rc3-quote{font-size:14px;line-height:1.62;color:#3D4149;margin:0}
+.rc3 .rc3-foot{display:flex;align-items:center;gap:12px;margin-top:14px;clear:both}
+.rc3 .rc3-name{font-style:italic;color:#8A8F98;font-weight:600;font-size:13.5px}
+.rc3 .rc3-foot .stars{color:var(--accent);letter-spacing:3px;font-size:13px}
