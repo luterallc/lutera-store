@@ -1210,3 +1210,6 @@ header.site .header-icons{position:absolute !important;right:24px;top:50%;transf
 .rc3 .rc3-foot{flex-wrap:nowrap}
 .rc3 .rc3-name{white-space:nowrap}
 .rc3 .rc3-foot .stars{white-space:nowrap;letter-spacing:2px;font-size:12.5px;margin-left:auto}
+
+/* live15: 10-person strip — wrap into rows on desktop, keep side-scroll on mobile */
+@media(min-width:920px){.ugc-strip{flex-wrap:wrap;row-gap:6px}}
