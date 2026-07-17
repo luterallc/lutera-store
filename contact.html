@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact — Lutera</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#127804;</text></svg>">
+<link rel="stylesheet" href="styles.css?v=live1">
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <nav class="main">
+      <a href="index.html">Home</a>
+      <a href="product.html">Shop Lutera</a>
+      <a href="contact.html" style="text-decoration:underline;text-underline-offset:4px">Contact</a>
+      <a href="track.html">Track Order</a>
+    </nav>
+    <span class="burger" id="burger"><span></span><span></span><span></span></span>
+    <a class="logo logo-img" href="index.html"><img src="images/logo-brown.png" alt="Lutera"></a>
+    <div class="header-icons">
+      <span class="hicon" data-i="search"></span>
+      <span class="hicon" data-i="user"></span>
+      <span class="hicon" data-i="bag"><span class="cartcount">1</span></span>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <span class="mm-close" id="mmClose">&times;</span>
+  <a href="index.html">Home</a>
+  <a href="product.html">Shop Lutera</a>
+  <a href="contact.html">Contact</a>
+  <a href="track.html">Track Order</a>
+  <a class="btn" href="product.html">Claim 4th of July Sale &rarr;</a>
+</div>
+<section style="min-height:56vh">
+  <div class="wrap" style="max-width:640px">
+    <h2 class="center">We're Here to Help</h2>
+    <p class="section-sub center">Questions about your order, your subscription, or Lutera itself &mdash; send us a note and a real human replies within 24 hours.</p>
+    <form id="cform" style="display:flex;flex-direction:column;gap:14px">
+      <input required placeholder="Your name" style="padding:14px 16px;border:1.5px solid var(--accent-btn);border-radius:10px;font-family:inherit;font-size:15px">
+      <input required type="email" placeholder="Email address" style="padding:14px 16px;border:1.5px solid var(--accent-btn);border-radius:10px;font-family:inherit;font-size:15px">
+      <textarea required placeholder="How can we help?" rows="5" style="padding:14px 16px;border:1.5px solid var(--accent-btn);border-radius:10px;font-family:inherit;font-size:15px"></textarea>
+      <button class="btn big" type="submit">Send Message</button>
+    </form>
+    <div id="csent" style="display:none;text-align:center;padding:40px 0">
+      <div style="font-size:44px">&#127881;</div>
+      <h3 style="margin:10px 0 6px">Message sent!</h3>
+      <p>We'll get back to you within 24 hours. Keep an eye on your inbox.</p>
+    </div>
+  </div>
+</section>
+<script>document.getElementById('cform').addEventListener('submit',function(e){e.preventDefault();this.style.display='none';document.getElementById('csent').style.display='block'});</script>
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div><div class="logo logo-img"><img src="images/logo-white.png" alt="Lutera" style="height:26px;width:auto"></div><p>A focused Triple Carotenoid eye formula &mdash; daily support for the way you actually use your eyes.</p></div>
+      <div><h4>Support</h4><a href="contact.html">Contact Us</a><a href="track.html">Track Order</a><a href="contact.html">Cancel or Change Order</a></div>
+      <div><h4>Legal</h4><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Refund Policy</a><a href="#">Shipping Policy</a></div>
+    </div>
+    <div class="fine">&copy; 2026 Lutera. All rights reserved.</div>
+  </div>
+</footer>
+<script src="script.js?v=live1"></script>
+</body>
+</html>
