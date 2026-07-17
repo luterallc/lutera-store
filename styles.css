@@ -1186,3 +1186,12 @@ header.site .header-icons{position:absolute !important;right:24px;top:50%;transf
 .bb-review .bbr-av[src*="av-carol"]{object-position:50% 50%}
 .bbr-vf{margin-left:auto;background:#E8F5EC;color:#2E9E5B;font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:20px;white-space:nowrap;letter-spacing:.02em}
 @media(max-width:919px){.bbr-vf{font-size:10px;padding:3px 7px}}
+
+/* live12: clean two-column review card + dazzling verified chip */
+.bb-review .bbr-row{display:flex;align-items:flex-start;gap:13px}
+.bb-review .bbr-av{float:none;flex:0 0 60px}
+.bb-review .bbr-quote{flex:1;min-width:0}
+.bbr-vf{background:linear-gradient(135deg,#2E9E5B,#45C97C);color:#fff;box-shadow:0 2px 9px rgba(46,158,91,.35);position:relative;overflow:hidden;animation:vfPulse 2.4s ease-in-out infinite}
+.bbr-vf::after{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);animation:vfShine 2.8s ease-in-out infinite}
+@keyframes vfPulse{0%,100%{box-shadow:0 2px 8px rgba(46,158,91,.3);transform:scale(1)}50%{box-shadow:0 3px 16px rgba(46,158,91,.55);transform:scale(1.06)}}
+@keyframes vfShine{0%,55%{left:-70%}85%,100%{left:130%}}

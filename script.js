@@ -258,8 +258,8 @@ function checkoutURL(){
 (function(){
   document.querySelectorAll('.btn-atc').forEach(function(b){
     b.addEventListener('click',function(){
-      b.innerHTML='<span class="l1">✓ Taking you to secure checkout…</span>';
-      setTimeout(function(){window.location.href=checkoutURL()},450);
+      if(window.openCartDrawer){window.openCartDrawer();}
+      else{window.location.href=checkoutURL();}
     });
   });
 })();
@@ -376,9 +376,7 @@ function checkoutURL(){
   document.addEventListener('click',function(ev){
     if(ev.target.closest&&ev.target.closest('#cdRemove')){cartEmpty=true;try{sessionStorage.setItem('luteraCartEmpty','1')}catch(e){}setCount(0);renderCart();}
   });
-  document.querySelectorAll('.btn-atc').forEach(function(el){
-    el.addEventListener('click',function(){cartEmpty=false;try{sessionStorage.removeItem('luteraCartEmpty')}catch(e){}setCount(1);});
-  });
+  window.openCartDrawer=function(){cartEmpty=false;try{sessionStorage.removeItem('luteraCartEmpty')}catch(e){}setCount(1);renderCart();open('cartDrawer');};
   var icons=document.querySelectorAll('.hicon');
   icons.forEach(function(ic){
     var k=ic.getAttribute('data-i');
