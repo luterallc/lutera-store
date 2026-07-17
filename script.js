@@ -124,8 +124,8 @@ document.querySelectorAll('.tab-btns button').forEach(function(b){
     for(var k=0;k<per;k++){
       var r=R[(page+k)%R.length];
       var d=document.createElement('div');d.className='rev-card rc3';
-      d.innerHTML='<img class="rc3-av" src="'+r.i+'" alt=""><p class="rc3-quote">&ldquo;'+r.p+'&rdquo;</p>'+
-        '<div class="rc3-foot"><span class="rc3-name">'+r.n+'</span><span class="stars">★ ★ ★ ★ ★</span></div>';
+      d.innerHTML='<div class="rc3-row"><img class="rc3-av" src="'+r.i+'" alt=""><p class="rc3-quote">&ldquo;'+r.p+'&rdquo;</p></div>'+
+        '<div class="rc3-foot"><span class="rc3-name">'+r.n+'</span><span class="stars">★★★★★</span></div>';
       track.appendChild(d);
     }
     if(dots){

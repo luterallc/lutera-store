@@ -1202,3 +1202,11 @@ header.site .header-icons{position:absolute !important;right:24px;top:50%;transf
 .ugc-strip .u .uimg img{width:100%;height:100%;object-fit:cover;object-position:50% 22%}
 .ucap{margin-top:8px;text-align:center;font-size:12.5px;font-weight:700;font-style:italic;color:#6E7378;display:flex;flex-direction:column;gap:2px}
 .ucap .stars{color:var(--accent);font-size:11px;letter-spacing:2.5px;font-style:normal}
+
+/* live14: carousel cards — clean two-column layout, no-wrap footer */
+.rc3 .rc3-row{display:flex;align-items:flex-start;gap:12px}
+.rc3 .rc3-av{float:none;flex:0 0 54px}
+.rc3 .rc3-quote{flex:1;min-width:0}
+.rc3 .rc3-foot{flex-wrap:nowrap}
+.rc3 .rc3-name{white-space:nowrap}
+.rc3 .rc3-foot .stars{white-space:nowrap;letter-spacing:2px;font-size:12.5px;margin-left:auto}
