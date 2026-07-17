@@ -1256,3 +1256,19 @@ header.site .header-icons{position:absolute !important;right:24px;top:50%;transf
 .pcard2 .pn{font-size:12px;opacity:.9;font-style:italic}
 .rev-marq .rm-track{animation-duration:90s}
 @media(max-width:919px){.pcard2{width:248px;flex:0 0 248px;margin-right:13px}.rev-marq .rm-track{animation-duration:70s}}
+
+/* live21: policy pages, compact phone cards, no-pause marquee */
+.policy{padding:44px 20px 70px}
+.policy h2{font-size:30px;margin-bottom:4px}
+.policy .pol-date{color:#8A8F98;font-size:13px;margin-bottom:26px;font-style:italic}
+.policy h3{font-size:18px;margin:26px 0 8px;color:var(--dark)}
+.policy p{font-size:14.5px;line-height:1.75;color:#3D4149}
+.policy a{color:var(--accent);font-weight:700}
+.rev-marq .rm-track:hover{animation-play-state:running}
+@media(max-width:919px){
+  .pcard2{width:168px;flex:0 0 168px;margin-right:10px}
+  .pcard2 .po{padding:32px 10px 10px;gap:4px}
+  .pcard2 .po .stars{font-size:10px;letter-spacing:2px}
+  .pcard2 .po p{font-size:10.5px;line-height:1.45}
+  .pcard2 .pn{font-size:9.5px}
+}

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Track Order — Lutera</title>
+<title>Terms of Service — Lutera</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#127804;</text></svg>">
 <link rel="stylesheet" href="styles.css?v=live21">
@@ -14,7 +14,7 @@
       <a href="index.html">Home</a>
       <a href="product.html">Shop Lutera</a>
       <a href="contact.html">Contact</a>
-      <a href="track.html" style="text-decoration:underline;text-underline-offset:4px">Track Order</a>
+      <a href="track.html">Track Order</a>
     </nav>
     <span class="burger" id="burger"><span></span><span></span><span></span></span>
     <a class="logo logo-img" href="index.html"><img src="images/logo-brown.png" alt="Lutera"></a>
@@ -34,29 +34,24 @@
   <a class="btn" href="product.html">Claim 250th Anniversary Sale &rarr;</a>
 </div>
 <section style="min-height:56vh">
-  <div class="wrap" style="max-width:640px">
-    <h2 class="center">Track Your Order</h2>
-    <p class="section-sub center">Enter the order number from your confirmation email and we'll show you where your Lutera is.</p>
-    <form id="tform" style="display:flex;flex-direction:column;gap:14px">
-      <input required placeholder="Order number (e.g. #1234)" style="padding:14px 16px;border:1.5px solid var(--accent-btn);border-radius:10px;font-family:inherit;font-size:15px">
-      <input required type="email" placeholder="Email used at checkout" style="padding:14px 16px;border:1.5px solid var(--accent-btn);border-radius:10px;font-family:inherit;font-size:15px">
-      <button class="btn big" type="submit">Track My Order</button>
-    </form>
-    <div id="tres" style="display:none;padding:30px 0 0">
-      <div style="background:var(--peach-soft);border:1.5px solid var(--accent-btn);border-radius:14px;padding:24px">
-        <h3 style="margin-bottom:14px">&#128230; Your order is on the way!</h3>
-        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px">
-          <div>&#9989; <b>Order confirmed</b></div>
-          <div>&#9989; <b>Packed at our facility</b></div>
-          <div>&#128666; <b>In transit</b> &mdash; arriving within 3&ndash;5 business days</div>
-          <div style="opacity:.5">&#127968; Delivered</div>
-        </div>
-        <p style="font-size:12.5px;margin-top:14px;color:#8a8a8a">Full tracking details are in your shipping confirmation email.</p>
-      </div>
-    </div>
+  <div class="wrap policy" style="max-width:780px">
+    <h2>Terms of Service</h2>
+    <p class="pol-date">Last updated: July 17, 2026</p>
+    <p>Welcome to Lutera. By using getlutera.com or placing an order, you agree to these terms.</p>
+    <h3>Health Disclaimer</h3>
+    <p>Lutera is a dietary supplement. Statements on this site have not been evaluated by the Food and Drug Administration, and this product is not intended to diagnose, treat, cure, or prevent any disease. Nothing on this site is medical advice. Consult your physician before use if you are pregnant, nursing, taking medication, or have a medical condition. Intended for adults 18 and over.</p>
+    <h3>Orders &amp; Pricing</h3>
+    <p>All prices are in U.S. dollars. Promotional pricing (including the 250th Anniversary Sale) is available for a limited time and may change without notice. We reserve the right to correct pricing errors and to cancel and refund any order we cannot verify or fulfill.</p>
+    <h3>Results Vary</h3>
+    <p>Customer reviews reflect individual experiences. Individual results vary, and no specific outcome is guaranteed.</p>
+    <h3>Our Content</h3>
+    <p>Everything on this site &mdash; text, images, branding, and design &mdash; belongs to Lutera and may not be copied or reused without our written permission.</p>
+    <h3>Limitation of Liability</h3>
+    <p>To the fullest extent permitted by law, Lutera&rsquo;s liability for any claim related to your order is limited to the amount you paid for that order.</p>
+    <h3>Contact</h3>
+    <p>Questions about these terms? Reach us any time through our <a href="contact.html">Contact page</a>.</p>
   </div>
 </section>
-<script>document.getElementById('tform').addEventListener('submit',function(e){e.preventDefault();this.style.display='none';document.getElementById('tres').style.display='block'});</script>
 <footer>
   <div class="wrap">
     <div class="cols">
@@ -64,7 +59,7 @@
       <div><h4>Support</h4><a href="contact.html">Contact Us</a><a href="track.html">Track Order</a><a href="contact.html">Cancel or Change Order</a></div>
       <div><h4>Legal</h4><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="refund-policy.html">Refund Policy</a><a href="shipping-policy.html">Shipping Policy</a></div>
     </div>
-    <div class="fine">&copy; 2026 Lutera. All rights reserved.</div>
+    <div class="fine">*These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. &copy; 2026 Lutera. All rights reserved.</div>
   </div>
 </footer>
 <script src="script.js?v=live21"></script>

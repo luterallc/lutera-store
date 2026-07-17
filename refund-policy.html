@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Track Order — Lutera</title>
+<title>Refund Policy — Lutera</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#127804;</text></svg>">
 <link rel="stylesheet" href="styles.css?v=live21">
@@ -14,7 +14,7 @@
       <a href="index.html">Home</a>
       <a href="product.html">Shop Lutera</a>
       <a href="contact.html">Contact</a>
-      <a href="track.html" style="text-decoration:underline;text-underline-offset:4px">Track Order</a>
+      <a href="track.html">Track Order</a>
     </nav>
     <span class="burger" id="burger"><span></span><span></span><span></span></span>
     <a class="logo logo-img" href="index.html"><img src="images/logo-brown.png" alt="Lutera"></a>
@@ -34,29 +34,21 @@
   <a class="btn" href="product.html">Claim 250th Anniversary Sale &rarr;</a>
 </div>
 <section style="min-height:56vh">
-  <div class="wrap" style="max-width:640px">
-    <h2 class="center">Track Your Order</h2>
-    <p class="section-sub center">Enter the order number from your confirmation email and we'll show you where your Lutera is.</p>
-    <form id="tform" style="display:flex;flex-direction:column;gap:14px">
-      <input required placeholder="Order number (e.g. #1234)" style="padding:14px 16px;border:1.5px solid var(--accent-btn);border-radius:10px;font-family:inherit;font-size:15px">
-      <input required type="email" placeholder="Email used at checkout" style="padding:14px 16px;border:1.5px solid var(--accent-btn);border-radius:10px;font-family:inherit;font-size:15px">
-      <button class="btn big" type="submit">Track My Order</button>
-    </form>
-    <div id="tres" style="display:none;padding:30px 0 0">
-      <div style="background:var(--peach-soft);border:1.5px solid var(--accent-btn);border-radius:14px;padding:24px">
-        <h3 style="margin-bottom:14px">&#128230; Your order is on the way!</h3>
-        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px">
-          <div>&#9989; <b>Order confirmed</b></div>
-          <div>&#9989; <b>Packed at our facility</b></div>
-          <div>&#128666; <b>In transit</b> &mdash; arriving within 3&ndash;5 business days</div>
-          <div style="opacity:.5">&#127968; Delivered</div>
-        </div>
-        <p style="font-size:12.5px;margin-top:14px;color:#8a8a8a">Full tracking details are in your shipping confirmation email.</p>
-      </div>
-    </div>
+  <div class="wrap policy" style="max-width:780px">
+    <h2>Refund Policy</h2>
+    <p class="pol-date">Last updated: July 17, 2026</p>
+    <h3>Our 90-Day Money-Back Guarantee</h3>
+    <p>We want trying Lutera to feel completely risk-free. If you&rsquo;re not satisfied for any reason, you have <b>90 days from the day your order is delivered</b> to request a full refund of your purchase price &mdash; even if you&rsquo;ve opened and used a pouch. No forms, no hoops, no hassle.</p>
+    <h3>How to Request a Refund</h3>
+    <p>Send us a note through our <a href="contact.html">Contact page</a> with your order number and the email you used at checkout. A real human will respond within 24 hours. For multi-pouch bundles, we may ask you to return any unopened pouches.</p>
+    <h3>When You&rsquo;ll See Your Money</h3>
+    <p>Approved refunds are issued to your original payment method within 5&ndash;10 business days. If it&rsquo;s been longer than that, check with your bank or card issuer first &mdash; then contact us and we&rsquo;ll chase it down.</p>
+    <h3>Wrong or Damaged Items</h3>
+    <p>If we shipped the wrong item or your order arrived damaged, contact us with a photo and we&rsquo;ll send a replacement immediately, free of charge &mdash; no return needed.</p>
+    <h3>Subscriptions</h3>
+    <p>When automatic refills launch, you&rsquo;ll be able to pause, skip, or cancel any time from your account with no commitment, and the 90-day guarantee will apply to every refill shipment.</p>
   </div>
 </section>
-<script>document.getElementById('tform').addEventListener('submit',function(e){e.preventDefault();this.style.display='none';document.getElementById('tres').style.display='block'});</script>
 <footer>
   <div class="wrap">
     <div class="cols">
@@ -64,7 +56,7 @@
       <div><h4>Support</h4><a href="contact.html">Contact Us</a><a href="track.html">Track Order</a><a href="contact.html">Cancel or Change Order</a></div>
       <div><h4>Legal</h4><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="refund-policy.html">Refund Policy</a><a href="shipping-policy.html">Shipping Policy</a></div>
     </div>
-    <div class="fine">&copy; 2026 Lutera. All rights reserved.</div>
+    <div class="fine">*These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. &copy; 2026 Lutera. All rights reserved.</div>
   </div>
 </footer>
 <script src="script.js?v=live21"></script>
