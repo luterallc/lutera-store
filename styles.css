@@ -1231,7 +1231,7 @@ header.site .header-icons{position:absolute !important;right:24px;top:50%;transf
 .rm-track .pcard .pn{font-style:italic;font-weight:700;color:#6E7378;font-size:13px;white-space:nowrap}
 .rm-track .pcard .pf .stars{color:var(--accent);font-size:12px;letter-spacing:2px;white-space:nowrap}
 .rev-marq .rm-track{animation-duration:80s}
-@media(max-width:919px){.pcard{width:235px;flex:0 0 235px;margin-right:14px}.rev-marq .rm-track{animation-duration:65s}}
+@media(max-width:919px){.rm-track .pcard{width:235px;flex:0 0 235px;margin-right:14px}.rev-marq .rm-track{animation-duration:65s}}
 
 /* live18: dopamine ATC + sticky-bar overlap fix */
 .btn-atc{background:linear-gradient(135deg,#DCC48D,#C2A159 50%,#DCC48D);border-color:#C2A159;box-shadow:0 6px 18px rgba(194,161,89,.4);animation:atcPulse 2.6s ease-in-out infinite}
@@ -1275,3 +1275,26 @@ header.site .header-icons{position:absolute !important;right:24px;top:50%;transf
 
 /* live22: smaller desktop testimonial cards */
 @media(min-width:920px){.pcard2{width:225px;flex:0 0 225px;margin-right:14px}.pcard2 .po{padding:40px 12px 12px}.pcard2 .po .stars{font-size:12px}.pcard2 .po p{font-size:12px}.pcard2 .pn{font-size:11px}}
+
+/* live23: mobile flip-card comfort, rating bar, Carol avcol, guarantee pouch */
+@media(max-width:919px){
+  .pcard{height:158px}
+  .pface{padding:13px 15px;gap:12px}
+  .pface .pimg{width:88px;height:88px;flex:0 0 88px}
+  .pface h3{font-size:16px;margin-bottom:3px;line-height:1.25}
+  .pface .psub2{font-size:12.5px;line-height:1.4}
+  .pface .pplus{width:30px;height:30px;flex:0 0 30px;font-size:17px}
+  .pface.back p{font-size:11.5px;line-height:1.45}
+}
+.rating-bar{gap:10px}
+.rating-bar .stars{font-size:17px;color:var(--accent);text-shadow:0 1px 6px rgba(194,161,89,.45);letter-spacing:2px}
+.rb-score{font-family:'Poppins',sans-serif;font-weight:800;font-size:17px;color:var(--dark)}
+.rb-chip{background:linear-gradient(135deg,#D8BE85,#C2A159);color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.08em;padding:3px 10px;border-radius:99px;box-shadow:0 2px 8px rgba(194,161,89,.35)}
+.rb-count{font-size:13.5px;color:#6E7378}
+.rb-count b{color:var(--dark)}
+.bbr-avcol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:0 0 64px}
+.bbr-avname{font-size:11.5px;font-weight:700;font-style:italic;color:#8A8F98;white-space:nowrap}
+.gbanner{position:relative}
+.gpouch{position:absolute;left:-20px;bottom:-18px;width:118px;transform:rotate(-10deg);filter:drop-shadow(0 10px 18px rgba(20,16,8,.3));cursor:pointer;transition:transform .25s}
+.gpouch:hover{transform:rotate(-4deg) scale(1.06)}
+@media(max-width:919px){.gpouch{width:84px;left:-12px;bottom:-14px}}
