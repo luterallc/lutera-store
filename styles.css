@@ -1245,3 +1245,14 @@ header.site .header-icons{position:absolute !important;right:24px;top:50%;transf
   .sticky-atc .btn-atc .l1{font-size:14.5px}
   .bsw{flex-wrap:wrap;row-gap:6px}
 }
+
+/* live19: full-bleed phone-card testimonial marquee */
+.rev-track.rev-marq{width:100vw;margin-left:calc(50% - 50vw);max-width:none}
+.pcard2{position:relative;width:300px;flex:0 0 300px;margin-right:16px;border-radius:16px;overflow:hidden;box-shadow:0 6px 18px rgba(43,35,20,.14)}
+.pcard2 img{width:100%;height:auto;display:block}
+.pcard2 .po{position:absolute;left:0;right:0;bottom:0;padding:56px 16px 16px;background:linear-gradient(transparent,rgba(14,11,6,.87));color:#fff;display:flex;flex-direction:column;gap:6px}
+.pcard2 .po .stars{color:#F5CE6E;font-size:13.5px;letter-spacing:3px;text-shadow:0 1px 3px rgba(0,0,0,.4)}
+.pcard2 .po p{font-size:13.5px;line-height:1.5;margin:0;font-weight:600;text-shadow:0 1px 4px rgba(0,0,0,.55)}
+.pcard2 .pn{font-size:12px;opacity:.9;font-style:italic}
+.rev-marq .rm-track{animation-duration:90s}
+@media(max-width:919px){.pcard2{width:248px;flex:0 0 248px;margin-right:13px}.rev-marq .rm-track{animation-duration:70s}}

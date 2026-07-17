@@ -107,24 +107,24 @@ document.querySelectorAll('.tab-btns button').forEach(function(b){
   });
 })();
 
-// Reviews — continuous photo-card marquee (photo + quote + name)
+// Reviews — full-bleed marquee of tall phone-style photo cards
 (function(){
   var track=document.getElementById('revTrack');if(!track)return;
   var R=[
-    {n:'Carol B.',i:'images/ugc-carol.webp',p:'My doctor said try Lutera. Two weeks in, the morning newspaper feels easier on my eyes and movie night with my grandkids is fun again!'},
-    {n:'Amy R.',i:'images/ugc-amy.webp',p:'Two years of pharmacy eye vitamins and my husband had nothing to show for it. Most brands skip meso-zeaxanthin entirely. We switched to Lutera and within weeks his reading got easier.'},
-    {n:'Frank D.',i:'images/ugc-frank.webp',p:'Retirement was supposed to mean more reading, not more eye strain. A month into Lutera, my evening chapters don\'t wear my eyes out anymore. Simple as that.'},
-    {n:'Tyler J.',i:'images/ugc-tyler.webp',p:'I\'m on screens twelve hours a day and my eyes paid the price — dry, heavy, aching by dinner. Three weeks in, the end-of-day burn started fading. I haven\'t used eye drops in days.'},
-    {n:'Colleen M.',i:'images/ugc-colleen.webp',p:'Thirty years in nursing means I know how to read a label. Lutera is the real thing: all three macular carotenoids plus astaxanthin, delivered in oil. My eyes are the freshest they\'ve felt in years.'},
-    {n:'Mark H.',i:'images/ugc-mark.webp',p:'Driving home in the dark genuinely stressed me out. By week five the glare from oncoming headlights had softened noticeably. I\'m more relaxed behind the wheel.'},
-    {n:'Paul G.',i:'images/ugc-paul.webp',p:'Gummies, tablets, vision blends — I\'ve bought them all and felt nothing. Within a few weeks of Lutera my eyes felt noticeably less tired. Four months in, haven\'t missed a day.'},
-    {n:'Janet C.',i:'images/ugc-janet.webp',p:'I didn\'t tell my optometrist I\'d started anything new. At my checkup she said my numbers looked better than last year and asked what changed. She said keep going.'}
+    {n:'Carol B.',i:'images/ugc2-carol.webp',p:'Movie night with my grandkids is fun again. Ordering more!'},
+    {n:'Amy R.',i:'images/ugc2-amy.webp',p:'Most brands skip meso-zeaxanthin. Lutera doesn\'t \u2014 my husband\'s reading got easier in weeks.'},
+    {n:'Frank D.',i:'images/ugc2-frank.webp',p:'A month in and my evening reading doesn\'t wear my eyes out anymore.'},
+    {n:'Tyler J.',i:'images/ugc2-tyler.webp',p:'Twelve hours of screens a day \u2014 the end-of-day burn is finally fading.'},
+    {n:'Colleen M.',i:'images/ugc2-colleen.webp',p:'30 years of nursing taught me to read labels. This is the real thing.'},
+    {n:'Mark H.',i:'images/ugc2-mark.webp',p:'Night driving used to stress me out. I\'m so much more relaxed behind the wheel now.'},
+    {n:'Paul G.',i:'images/ugc2-paul.webp',p:'I\'ve tried them all and felt nothing \u2014 until Lutera. Four months, zero missed days.'},
+    {n:'Janet C.',i:'images/ugc2-janet.webp',p:'My optometrist asked what changed at my checkup. She said keep going.'}
   ];
   var html='';
   for(var rep=0;rep<2;rep++){
     R.forEach(function(r){
-      html+='<div class="pcard"><img src="'+r.i+'" alt=""><p class="pq">&ldquo;'+r.p+'&rdquo;</p>'+
-        '<div class="pf"><span class="pn">'+r.n+'</span><span class="stars">★★★★★</span></div></div>';
+      html+='<div class="pcard2"><img src="'+r.i+'" alt=""><div class="po"><span class="stars">★★★★★</span>'+
+        '<p>&ldquo;'+r.p+'&rdquo;</p><span class="pn">&mdash; '+r.n+' &middot; Verified Buyer</span></div></div>';
     });
   }
   track.classList.add('rev-marq');
