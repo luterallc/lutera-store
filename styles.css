@@ -1232,3 +1232,16 @@ header.site .header-icons{position:absolute !important;right:24px;top:50%;transf
 .pcard .pf .stars{color:var(--accent);font-size:12px;letter-spacing:2px;white-space:nowrap}
 .rev-marq .rm-track{animation-duration:80s}
 @media(max-width:919px){.pcard{width:235px;flex:0 0 235px;margin-right:14px}.rev-marq .rm-track{animation-duration:65s}}
+
+/* live18: dopamine ATC + sticky-bar overlap fix */
+.btn-atc{background:linear-gradient(135deg,#DCC48D,#C2A159 50%,#DCC48D);border-color:#C2A159;box-shadow:0 6px 18px rgba(194,161,89,.4);animation:atcPulse 2.6s ease-in-out infinite}
+.btn-atc .l1{font-size:17px;font-weight:800;letter-spacing:.06em}
+@keyframes atcPulse{0%,100%{box-shadow:0 4px 12px rgba(194,161,89,.35)}50%{box-shadow:0 9px 28px rgba(194,161,89,.7)}}
+.info2 .sp{flex-wrap:wrap;row-gap:2px}
+@media(max-width:919px){
+  .info2 .sp{gap:6px}
+  .save-mini{font-size:9.5px;padding:2px 7px}
+  .sticky-atc .wrap{gap:10px}
+  .sticky-atc .btn-atc .l1{font-size:14.5px}
+  .bsw{flex-wrap:wrap;row-gap:6px}
+}
