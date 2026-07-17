@@ -111,14 +111,14 @@ document.querySelectorAll('.tab-btns button').forEach(function(b){
 (function(){
   var track=document.getElementById('revTrack');if(!track)return;
   var R=[
-    {n:'Carol B.',i:'images/ugc2-carol.webp',p:'Movie night with my grandkids is fun again. Ordering more!'},
-    {n:'Amy R.',i:'images/ugc2-amy.webp',p:'Most brands skip meso-zeaxanthin. Lutera doesn\'t \u2014 my husband\'s reading got easier in weeks.'},
-    {n:'Frank D.',i:'images/ugc2-frank.webp',p:'A month in and my evening reading doesn\'t wear my eyes out anymore.'},
-    {n:'Tyler J.',i:'images/ugc2-tyler.webp',p:'Twelve hours of screens a day \u2014 the end-of-day burn is finally fading.'},
-    {n:'Colleen M.',i:'images/ugc2-colleen.webp',p:'30 years of nursing taught me to read labels. This is the real thing.'},
-    {n:'Mark H.',i:'images/ugc2-mark.webp',p:'Night driving used to stress me out. I\'m so much more relaxed behind the wheel now.'},
-    {n:'Paul G.',i:'images/ugc2-paul.webp',p:'I\'ve tried them all and felt nothing \u2014 until Lutera. Four months, zero missed days.'},
-    {n:'Janet C.',i:'images/ugc2-janet.webp',p:'My optometrist asked what changed at my checkup. She said keep going.'}
+    {n:'Carol B., 64',i:'images/ugc2-carol.webp',p:'I live on my phone keeping up with my grandkids, and by 6pm my eyes used to feel sandy and done. Two months in, evenings feel easy again \u2014 crossword, movie night, all of it.'},
+    {n:'Amy R., 46',i:'images/ugc2-amy.webp',p:'Work screens, school pickups, reading in bad light \u2014 my eyes were fried by Friday. Three weeks in, that heavy end-of-week feeling is gone. My husband takes it now too. His idea, not mine.'},
+    {n:'Frank D., 68',i:'images/ugc2-frank.webp',p:'Retired, finally have time to read \u2014 and my eyes kept quitting before I did. A month of Lutera and I\'m back to two chapters a night without rubbing my eyes every page.'},
+    {n:'Tyler J., 34',i:'images/ugc2-tyler.webp',p:'Software job. Twelve hours of screens, then more screens to relax. My eyes burned by dinner every single day. Three weeks in, that end-of-day burn faded. There\'s a pouch in my desk drawer now.'},
+    {n:'Colleen M., 58',i:'images/ugc2-colleen.webp',p:'Thirty years of nursing \u2014 night shifts, fluorescent lights, endless charting. I read labels for a living, and this is the first eye formula dosed like the actual studies. My eyes stay fresh through a double.'},
+    {n:'Mark H., 52',i:'images/ugc2-mark.webp',p:'My drive home is 40 minutes in the dark, and oncoming headlights used to make me grip the wheel. Five weeks in, night drives feel calmer and my eyes aren\'t wrung out when I pull in.'},
+    {n:'Paul G., 63',i:'images/ugc2-paul.webp',p:'I\'ve bought every eye gummy and tablet on the shelf and felt nothing. Tried Lutera because of the 90-day guarantee. Four months, zero missed days \u2014 dawn fishing trips feel easy on my eyes again.'},
+    {n:'Janet C., 57',i:'images/ugc2-janet.webp',p:'I didn\'t tell my optometrist I\'d started anything. At my checkup she said my numbers looked better than last year and asked what changed. I showed her the label. She said keep going.'}
   ];
   var html='';
   for(var rep=0;rep<2;rep++){

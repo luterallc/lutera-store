@@ -1346,3 +1346,11 @@ section{padding:38px 0}
 .main-img img{-webkit-user-drag:none;user-select:none}
 .gallery{overscroll-behavior-x:contain}
 @media(max-width:919px){.compare th.lut .colimg{height:66px}.compare th.lut{padding:8px 6px 5px}}
+
+/* live27: tighter heading gap, roomier overlay for detailed reviews */
+.rev-marq{margin-top:6px}
+.pcard2 .po{padding-top:64px}
+@media(max-width:919px){.pcard2 .po{padding-top:44px}.pcard2 .po p{font-size:10px;line-height:1.42}}
+
+/* live27b: balance card size vs detailed quote length on phones */
+@media(max-width:919px){.pcard2{width:190px;flex:0 0 190px;margin-right:11px}.pcard2 .po p{font-size:10.5px;line-height:1.45}}
