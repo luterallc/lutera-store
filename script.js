@@ -229,6 +229,11 @@ document.querySelectorAll('.pcard').forEach(function(cd){
   var el=document.createElement('div');
   el.className='order-toast';
   document.body.appendChild(el);
+  // swipe to dismiss (mobile)
+  var tx=null;
+  el.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;el.style.transition='none'},{passive:true});
+  el.addEventListener('touchmove',function(e){if(tx===null)return;var dx=e.touches[0].clientX-tx;el.style.transform='translateX('+dx+'px)';el.style.opacity=Math.max(0,1-Math.abs(dx)/150)},{passive:true});
+  el.addEventListener('touchend',function(e){if(tx===null)return;var dx=e.changedTouches[0].clientX-tx;el.style.transition='';if(Math.abs(dx)>60)el.classList.remove('show');setTimeout(function(){el.style.transform='';el.style.opacity=''},350);tx=null});
   // shuffle so a returning visitor never sees the same name first
   for(var s=ORDERS.length-1;s>0;s--){var j=Math.floor(Math.random()*(s+1));var tmp=ORDERS[s];ORDERS[s]=ORDERS[j];ORDERS[j]=tmp;}
   var i=0;
@@ -436,4 +441,18 @@ function checkoutURL(){
   document.querySelectorAll('.payrow,.payments').forEach(function(el){
     el.innerHTML=ORDER.map(function(k){return '<span class="payb">'+B(k)+'</span>'}).join('');
   });
+})();
+
+// Dynamic delivery window: today+7 to today+15, refreshes itself daily
+(function(){
+  var a=document.getElementById('shipA'),b=document.getElementById('shipB');
+  if(!a||!b)return;
+  var DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  function ord(n){var v=n%100;if(v>=11&&v<=13)return n+'th';switch(n%10){case 1:return n+'st';case 2:return n+'nd';case 3:return n+'rd';default:return n+'th'}}
+  function fmt(d){return DAYS[d.getDay()]+', '+MON[d.getMonth()]+' '+ord(d.getDate())}
+  var t=new Date();
+  var d1=new Date(t.getFullYear(),t.getMonth(),t.getDate()+7);
+  var d2=new Date(t.getFullYear(),t.getMonth(),t.getDate()+15);
+  a.textContent=fmt(d1);b.textContent=fmt(d2);
 })();
