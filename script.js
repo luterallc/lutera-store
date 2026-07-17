@@ -326,8 +326,9 @@ function checkoutURL(){
     '<a class="btn" href="product.html">Shop Lutera &rarr;</a></div>'+
     '<div class="cart-drawer" id="cartDrawer"><div class="cd-head"><h3>Your Cart</h3><button class="ov-close" data-close style="position:static">&times;</button></div>'+
     '<div class="cd-ship">&#127881; You unlocked <b>FREE SHIPPING</b> + the Free At-Home Eye Exam!<div class="csbar"><span></span></div></div>'+
-    '<div class="cd-body"><div class="cd-item"><img src="images/pouch-perfect.png" alt=""><div><b>Lutera Triple Carotenoid Formula</b><span class="cdq">Buy 2 Get 1 FREE &middot; 90-day supply</span></div><span class="cdp" id="cdPrice">$54.99</span></div>'+'<div class="cd-gift"><span class="gico">&#128065;</span><div><b>FREE At-Home Eye Exam</b><span class="gsub">60-second vision benchmark &middot; instant access</span></div><div class="gprice"><span class="gwas">$9.99</span><span class="free-badge">FREE</span></div></div>'+'<div class="cd-gift" id="cdShipGift"><span class="gico">&#128666;</span><div><b>FREE Priority Shipping</b><span class="gsub">Arrives in 5&ndash;7 business days</span></div><div class="gprice"><span class="gwas">$5.99</span><span class="free-badge">FREE</span></div></div></div>'+
-    '<div class="cd-foot"><div class="cd-savings"><span>&#127881; You\'re saving today</span><span class="amt" id="cdSave">$140.96</span></div>'+'<div class="cd-sub"><span>Subtotal</span><span id="cdSub">$54.99</span></div>'+
+    '<div class="cd-empty" id="cdEmpty" style="display:none"><span class="ce-ico">&#128722;</span><b>Your cart is empty</b><span>Your eyes will thank you later.</span><a class="btn" href="product.html">Shop Lutera &rarr;</a></div>'+
+    '<div class="cd-body" id="cdBody"><div class="cd-item"><img src="images/pouch-perfect.png" alt=""><div><b>Lutera Triple Carotenoid Formula</b><span class="cdq" id="cdQty">Buy 2 Get 1 FREE &middot; 90-day supply</span></div><div class="cd-right"><span class="cdp" id="cdPrice">$59.99</span><button class="cd-remove" id="cdRemove" aria-label="Remove from cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v6M14 11v6"/></svg></button></div></div>'+'<div class="cd-gift"><span class="gico">&#128065;</span><div><b>FREE At-Home Eye Exam</b><span class="gsub">60-second vision benchmark &middot; instant access</span></div><div class="gprice"><span class="gwas">$9.99</span><span class="free-badge">FREE</span></div></div>'+'<div class="cd-gift" id="cdShipGift"><span class="gico">&#128666;</span><div><b>FREE Priority Shipping</b><span class="gsub">Arrives in 5&ndash;7 business days</span></div><div class="gprice"><span class="gwas">$5.99</span><span class="free-badge">FREE</span></div></div></div>'+
+    '<div class="cd-foot"><div class="cd-savings"><span>&#127881; You\'re saving today</span><span class="amt" id="cdSave">$129.97</span></div>'+'<div class="cd-sub"><span>Subtotal</span><span id="cdSub">$59.99</span></div>'+
     '<a class="btn big" id="cdCheckout" href="https://ru1ttu-nw.myshopify.com/cart/42744068243541:1" style="text-align:center;display:block">CHECKOUT &rarr;</a>'+
     '<div class="cd-note">&#128737; 90-Day Money-Back Guarantee &middot; Secure checkout</div></div></div>';
   document.body.appendChild(wrap);
@@ -337,30 +338,45 @@ function checkoutURL(){
   back.addEventListener('click',closeAll);
   wrap.querySelectorAll('[data-close]').forEach(function(b){b.addEventListener('click',closeAll)});
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAll()});
+  var TIERQ={'42743984324693':'Buy One \u00b7 30-day supply','42744068243541':'Buy 2 Get 1 FREE \u00b7 90-day supply','42744094752853':'Buy 3 Get 2 FREE \u00b7 150-day supply'};
+  var cartEmpty=false;
+  function setCount(n){document.querySelectorAll('.cartcount').forEach(function(c){c.textContent=n;c.style.display=n?'':'none'})}
+  function renderCart(){
+    var dr=document.getElementById('cartDrawer');
+    document.getElementById('cdEmpty').style.display=cartEmpty?'flex':'none';
+    document.getElementById('cdBody').style.display=cartEmpty?'none':'';
+    var foot=dr.querySelector('.cd-foot');if(foot)foot.style.display=cartEmpty?'none':'';
+    var ban=dr.querySelector('.cd-ship');if(ban)ban.style.display=cartEmpty?'none':'';
+    if(cartEmpty)return;
+    var tier=document.querySelector('.tiers .tier.selected');
+    var big=tier&&tier.getAttribute('data-ship')==='free';
+    if(tier){var v=tier.getAttribute('data-variant');if(TIERQ[v])document.getElementById('cdQty').textContent=TIERQ[v];}
+    var shipRow=document.getElementById('cdShipGift');
+    if(shipRow)shipRow.style.display=big?'flex':'none';
+    if(ban)ban.innerHTML=big
+      ?'&#127881; You unlocked <b>FREE PRIORITY SHIPPING</b> + the Free At-Home Eye Exam!<div class="csbar"><span style="width:100%"></span></div>'
+      :'&#128666; Upgrade to <b>Buy 3 Get 2 FREE</b> to unlock FREE Priority Shipping!<div class="csbar"><span style="width:66%"></span></div>';
+    var p=document.querySelector('.buybox .js-price');
+    if(p){document.getElementById('cdPrice').textContent=p.textContent;document.getElementById('cdSub').textContent=p.textContent;
+      var w=document.querySelector('.buybox .js-was');
+      if(w){var save=(parseFloat(w.textContent.replace('$',''))-parseFloat(p.textContent.replace('$','')))+9.99+(big?5.99:0);
+      document.getElementById('cdSave').textContent='$'+save.toFixed(2);}}
+    var co=document.getElementById('cdCheckout');
+    if(co&&typeof checkoutURL==='function')co.href=checkoutURL();
+  }
+  document.addEventListener('click',function(ev){
+    if(ev.target.closest&&ev.target.closest('#cdRemove')){cartEmpty=true;setCount(0);renderCart();}
+  });
+  document.querySelectorAll('.tiers .tier,.btn-atc').forEach(function(el){
+    el.addEventListener('click',function(){if(cartEmpty){cartEmpty=false;setCount(1);}});
+  });
   var icons=document.querySelectorAll('.hicon');
   icons.forEach(function(ic){
     var k=ic.getAttribute('data-i');
     ic.addEventListener('click',function(){
       if(k==='search')open('searchBox');
       else if(k==='user')open('acctModal');
-      else if(k==='bag'){
-        var p=document.querySelector('.buybox .js-price');
-        var tier=document.querySelector('.tiers .tier.selected');
-        var big=tier&&tier.getAttribute('data-ship')==='free';
-        var shipRow=document.getElementById('cdShipGift');
-        var shipBan=document.querySelector('.cd-ship');
-        if(shipRow)shipRow.style.display=big?'flex':'none';
-        if(shipBan)shipBan.innerHTML=big
-          ?'&#127881; You unlocked <b>FREE PRIORITY SHIPPING</b> + the Free At-Home Eye Exam!<div class="csbar"><span style="width:100%"></span></div>'
-          :'&#128666; Upgrade to <b>Buy 3 Get 2 FREE</b> to unlock FREE Priority Shipping!<div class="csbar"><span style="width:66%"></span></div>';
-        if(p){document.getElementById('cdPrice').textContent=p.textContent;document.getElementById('cdSub').textContent=p.textContent;
-          var w=document.querySelector('.buybox .js-was');
-          if(w){var save=(parseFloat(w.textContent.replace('$',''))-parseFloat(p.textContent.replace('$','')))+9.99+(big?5.99:0);
-          document.getElementById('cdSave').textContent='$'+save.toFixed(2);}}
-        var co=document.getElementById('cdCheckout');
-        if(co&&typeof checkoutURL==='function')co.href=checkoutURL();
-        open('cartDrawer');
-      }
+      else if(k==='bag'){renderCart();open('cartDrawer');}
     });
   });
   var si=document.getElementById('searchInput');
@@ -393,4 +409,27 @@ function checkoutURL(){
     if(Math.abs(dx)>40)show(idx+(dx<0?1:-1));
     x0=null;
   },{passive:true});
+})();
+
+// Real payment brand badges — replaces text chips in .payrow and footer .payments
+(function(){
+  var F='font-family="Arial,Helvetica,sans-serif"';
+  var WR='<rect x="0.5" y="0.5" width="{W}" height="31" rx="5" fill="#fff" stroke="#E3E6EA"/>';
+  var APPLE='M17.05 12.54c-.03-2.6 2.12-3.85 2.22-3.91-1.21-1.77-3.09-2.01-3.76-2.04-1.6-.16-3.12.94-3.93.94-.81 0-2.06-.92-3.39-.89-1.74.03-3.35 1.01-4.25 2.57-1.81 3.14-.46 7.79 1.3 10.34.86 1.25 1.89 2.65 3.24 2.6 1.3-.05 1.79-.84 3.36-.84 1.57 0 2.01.84 3.39.81 1.4-.02 2.29-1.27 3.15-2.52.99-1.45 1.4-2.85 1.42-2.92-.03-.01-2.72-1.04-2.75-4.14zM14.44 4.9c.72-.87 1.2-2.08 1.07-3.29-1.03.04-2.28.69-3.02 1.56-.66.77-1.24 2-1.09 3.18 1.15.09 2.33-.58 3.04-1.45z';
+  var uid=0;
+  function B(k){
+    uid++;
+    if(k==='amex')return '<svg viewBox="0 0 54 32"><rect width="54" height="32" rx="5" fill="#2557D6"/><text x="27" y="21" font-size="12" font-weight="800" letter-spacing=".5" fill="#fff" text-anchor="middle" '+F+'>AMEX</text></svg>';
+    if(k==='applepay')return '<svg viewBox="0 0 58 32">'+WR.replace('{W}','57')+'<g transform="translate(12.5,9) scale(0.6)" fill="#111"><path d="'+APPLE+'"/></g><text x="27" y="21" font-size="13" font-weight="600" fill="#111" '+F+'>Pay</text></svg>';
+    if(k==='gpay')return '<svg viewBox="0 0 58 32">'+WR.replace('{W}','57')+'<g transform="translate(10,8.5) scale(0.62)"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></g><text x="28" y="21" font-size="13" font-weight="600" fill="#5F6368" '+F+'>Pay</text></svg>';
+    if(k==='mc')return '<svg viewBox="0 0 48 32">'+WR.replace('{W}','47')+'<clipPath id="mcx'+uid+'"><circle cx="19" cy="16" r="8.5"/></clipPath><circle cx="19" cy="16" r="8.5" fill="#EB001B"/><circle cx="29" cy="16" r="8.5" fill="#F79E1B"/><circle cx="29" cy="16" r="8.5" fill="#FF5F00" clip-path="url(#mcx'+uid+')"/></svg>';
+    if(k==='paypal')return '<svg viewBox="0 0 58 32">'+WR.replace('{W}','57')+'<text x="29" y="21" font-size="12.5" font-weight="800" font-style="italic" text-anchor="middle" '+F+'><tspan fill="#003087">Pay</tspan><tspan fill="#009CDE">Pal</tspan></text></svg>';
+    if(k==='shop')return '<svg viewBox="0 0 48 32"><rect width="48" height="32" rx="5" fill="#5A31F4"/><text x="24" y="21" font-size="13" font-weight="800" fill="#fff" text-anchor="middle" '+F+'>shop</text></svg>';
+    if(k==='visa')return '<svg viewBox="0 0 52 32"><rect width="52" height="32" rx="5" fill="#1434CB"/><text x="26" y="21" font-size="12.5" font-weight="800" font-style="italic" letter-spacing="1" fill="#fff" text-anchor="middle" '+F+'>VISA</text></svg>';
+    return '';
+  }
+  var ORDER=['amex','applepay','gpay','mc','paypal','shop','visa'];
+  document.querySelectorAll('.payrow,.payments').forEach(function(el){
+    el.innerHTML=ORDER.map(function(k){return '<span class="payb">'+B(k)+'</span>'}).join('');
+  });
 })();
