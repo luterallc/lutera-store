@@ -1319,3 +1319,22 @@ header.site .header-icons{position:absolute !important;right:24px;top:50%;transf
   .compare .yes,.compare .no{font-size:14px}
   .compare th.lut .pillar-name,.compare th.lut span{font-size:13px}
 }
+
+/* live25: normal seal, gold dopamine pillar, tighter vertical rhythm */
+.gseal img{width:150px}
+.gbanner{padding:32px 36px;gap:28px}
+@media(max-width:919px){.gseal img{width:120px}.gbanner{padding:24px 20px}}
+.compare th.lut{background:linear-gradient(180deg,#D9BF88,#C2A159);box-shadow:0 16px 36px rgba(194,161,89,.5)}
+.compare td:nth-child(2){background:#C2A159;color:#fff;border-bottom:1px solid rgba(255,255,255,.28)}
+.compare tr:last-child td:nth-child(2){background:linear-gradient(180deg,#C2A159,#B3924E)}
+.compare th.lut .colimg{height:86px;margin-bottom:2px}
+.compare .thlogo{display:none}
+section{padding:38px 0}
+.compare-section{padding:48px 0}
+.tint{padding-top:34px;padding-bottom:34px}
+@media(max-width:919px){
+  section{padding:26px 0}
+  .compare-section{padding:34px 0}
+  .compare th.lut{padding:8px 6px 6px}
+  .compare th.lut .colimg{height:48px}
+}
