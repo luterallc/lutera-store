@@ -1338,3 +1338,11 @@ section{padding:38px 0}
   .compare th.lut{padding:8px 6px 6px}
   .compare th.lut .colimg{height:48px}
 }
+
+/* live26: giant pillar bag, gallery gesture fence, badge polish */
+.compare th.lut .colimg{height:128px;margin-bottom:0}
+.compare th.lut{padding:12px 20px 8px}
+.main-img{touch-action:pan-y;overscroll-behavior-x:contain}
+.main-img img{-webkit-user-drag:none;user-select:none}
+.gallery{overscroll-behavior-x:contain}
+@media(max-width:919px){.compare th.lut .colimg{height:66px}.compare th.lut{padding:8px 6px 5px}}
