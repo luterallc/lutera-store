@@ -1354,3 +1354,15 @@ section{padding:38px 0}
 
 /* live27b: balance card size vs detailed quote length on phones */
 @media(max-width:919px){.pcard2{width:190px;flex:0 0 190px;margin-right:11px}.pcard2 .po p{font-size:10.5px;line-height:1.45}}
+
+/* live28: 5-badge row, mobile guarantee polish, bigger compare bag */
+.compare th.lut .colimg{height:148px}
+@media(max-width:919px){
+  .compare th.lut .colimg{height:80px}
+  .gbanner{text-align:center;gap:14px;padding:26px 18px}
+  .gbanner h2{font-size:22px}
+  .gbanner p{font-size:13.5px;line-height:1.6}
+  .gbanner .btn{display:inline-block;margin:4px auto 0}
+  .gseal{margin-top:2px}
+  .gseal img{width:104px}
+}
