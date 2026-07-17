@@ -1213,3 +1213,12 @@ header.site .header-icons{position:absolute !important;right:24px;top:50%;transf
 
 /* live15: 10-person strip — wrap into rows on desktop, keep side-scroll on mobile */
 @media(min-width:920px){.ugc-strip{flex-wrap:wrap;row-gap:6px}}
+
+/* live16: reviews as continuous sideways marquee, wide cards */
+.rev-track.rev-marq{display:block;overflow:hidden;grid-template-columns:none}
+.rev-marq .rm-track{display:flex;width:max-content;animation:rmscroll 75s linear infinite;align-items:stretch}
+.rev-marq .rm-track:hover{animation-play-state:paused}
+.rev-card.rc4{width:400px;flex:0 0 400px;margin-right:20px;display:flex;flex-direction:column}
+.rc4 .rc3-foot{margin-top:auto;padding-top:12px}
+@media(max-width:919px){.rev-card.rc4{width:305px;flex:0 0 305px;margin-right:14px}.rev-marq .rm-track{animation-duration:60s}}
+@keyframes rmscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}

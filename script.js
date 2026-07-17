@@ -107,40 +107,27 @@ document.querySelectorAll('.tab-btns button').forEach(function(b){
   });
 })();
 
-// Reviews carousel — reference layout: stars / title / body / name + VERIFIED
+// Reviews — continuous sideways marquee of wide cards (new cast)
 (function(){
   var track=document.getElementById('revTrack');if(!track)return;
   var R=[
-    {t:'I Finally Trust My Eyes Again',n:'Dennis T.',i:'images/av-porch.webp',p:'Working late meant driving home in the dark, and the glare from oncoming traffic genuinely stressed me out. By week five the halos around headlights had softened noticeably. I\'m more relaxed behind the wheel, and my eyes don\'t feel wrung out when I get home.'},
-    {t:'My Days Start Differently Now',n:'Gary M.',i:'images/av-desk.webp',p:'Between work and my tablet I\'m on screens twelve hours a day, and my eyes paid the price — dry, heavy, aching by dinner. Three weeks in, the end-of-day burn started fading. Six weeks in, I realized I hadn\'t used eye drops in days.'},
-    {t:'My Optometrist Wanted to Know My Secret',n:'Margaret S.',i:'images/av-gh.webp',p:'I didn\'t tell my optometrist I\'d started anything new. At my checkup she said my macular pigment measurement looked better than last year and asked what changed. When I told her about Lutera, she looked at the label and said keep going.'},
-    {t:'Nobody Ever Told Us About Meso-Zeaxanthin',n:'Susan H.',i:'images/av-comfort.webp',p:'Two years of pharmacy eye vitamins and my husband had nothing to show for it. I did my research and learned most brands skip meso-zeaxanthin entirely. We switched to Lutera and within weeks his reading got easier. I wish we\'d found this sooner.'},
-    {t:'A Nurse Doesn\'t Lie About Supplements',n:'Linda K.',i:'images/av-armchair.webp',p:'Thirty years in nursing means I know how to read a label. Lutera is the real thing: all three macular carotenoids at studied doses plus astaxanthin, delivered in oil. Three months in, my eyes are the freshest they\'ve felt in years.'},
-    {t:'Done Wasting Money — This One Stuck',n:'Robert W.',i:'images/av-lib.webp',p:'Gummies, tablets, vision blends — I\'ve bought them all and felt nothing. I tried Lutera expecting the same story. Within a few weeks my eyes felt noticeably less tired. Four months in and I haven\'t missed a day. One softgel. That\'s it.'}
+    {n:'Mark H.',i:'images/av-mark.webp',p:'Working late meant driving home in the dark, and the glare from oncoming traffic genuinely stressed me out. By week five the halos around headlights had softened noticeably. I\'m more relaxed behind the wheel, and my eyes don\'t feel wrung out when I get home.'},
+    {n:'Tyler J.',i:'images/av-tyler.webp',p:'Between work and my tablet I\'m on screens twelve hours a day, and my eyes paid the price — dry, heavy, aching by dinner. Three weeks in, the end-of-day burn started fading. Six weeks in, I realized I hadn\'t used eye drops in days.'},
+    {n:'Janet C.',i:'images/av-janet.webp',p:'I didn\'t tell my optometrist I\'d started anything new. At my checkup she said my macular pigment measurement looked better than last year and asked what changed. When I told her about Lutera, she looked at the label and said keep going.'},
+    {n:'Amy R.',i:'images/av-amy.webp',p:'Two years of pharmacy eye vitamins and my husband had nothing to show for it. I did my research and learned most brands skip meso-zeaxanthin entirely. We switched to Lutera and within weeks his reading got easier. I wish we\'d found this sooner.'},
+    {n:'Colleen M.',i:'images/av-colleen.webp',p:'Thirty years in nursing means I know how to read a label. Lutera is the real thing: all three macular carotenoids at studied doses plus astaxanthin, delivered in oil. Three months in, my eyes are the freshest they\'ve felt in years.'},
+    {n:'Paul G.',i:'images/av-paul.webp',p:'Gummies, tablets, vision blends — I\'ve bought them all and felt nothing. I tried Lutera expecting the same story. Within a few weeks my eyes felt noticeably less tired. Four months in and I haven\'t missed a day. One softgel. That\'s it.'}
   ];
-  var page=0, per=window.innerWidth>919?5:3, dots=document.getElementById('revDots');
-  function render(){
-    track.innerHTML='';
-    for(var k=0;k<per;k++){
-      var r=R[(page+k)%R.length];
-      var d=document.createElement('div');d.className='rev-card rc3';
-      d.innerHTML='<div class="rc3-row"><img class="rc3-av" src="'+r.i+'" alt=""><p class="rc3-quote">&ldquo;'+r.p+'&rdquo;</p></div>'+
-        '<div class="rc3-foot"><span class="rc3-name">'+r.n+'</span><span class="stars">★★★★★</span></div>';
-      track.appendChild(d);
-    }
-    if(dots){
-      dots.innerHTML='';
-      for(var j=0;j<R.length;j++){
-        var b=document.createElement('span');b.className='rdot'+(j===page?' on':'');
-        (function(jj){b.addEventListener('click',function(){page=jj;render()})})(j);
-        dots.appendChild(b);
-      }
-    }
+  var html='';
+  for(var rep=0;rep<2;rep++){
+    R.forEach(function(r){
+      html+='<div class="rev-card rc4"><div class="rc3-row"><img class="rc3-av" src="'+r.i+'" alt=""><p class="rc3-quote">&ldquo;'+r.p+'&rdquo;</p></div>'+
+        '<div class="rc3-foot"><span class="rc3-name">'+r.n+'</span><span class="stars">★★★★★</span></div></div>';
+    });
   }
-  render();
-  document.getElementById('revPrev').addEventListener('click',function(){page=(page-1+R.length)%R.length;render()});
-  document.getElementById('revNext').addEventListener('click',function(){page=(page+1)%R.length;render()});
-  setInterval(function(){page=(page+1)%R.length;render()},9000);
+  track.classList.add('rev-marq');
+  track.innerHTML='<div class="rm-track">'+html+'</div>';
+  ['revPrev','revNext','revDots'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.display='none'});
 })();
 
 // Gallery thumbs
