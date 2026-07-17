@@ -367,7 +367,7 @@ function checkoutURL(){
   document.addEventListener('click',function(ev){
     if(ev.target.closest&&ev.target.closest('#cdRemove')){cartEmpty=true;setCount(0);renderCart();}
   });
-  document.querySelectorAll('.tiers .tier,.btn-atc').forEach(function(el){
+  document.querySelectorAll('.btn-atc').forEach(function(el){
     el.addEventListener('click',function(){if(cartEmpty){cartEmpty=false;setCount(1);}});
   });
   var icons=document.querySelectorAll('.hicon');
