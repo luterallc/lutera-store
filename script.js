@@ -59,7 +59,14 @@ document.querySelectorAll('.tiers .tier').forEach(function(t){
 });
 (function(){
   var sub=document.querySelector('.subrow input');
-  if(sub){sub.addEventListener('change',refreshPrice);refreshPrice();}
+  if(!sub)return;
+  try{if(sessionStorage.getItem('luteraSub')==='0')sub.checked=false}catch(e){}
+  sub.addEventListener('change',function(){
+    try{sessionStorage.setItem('luteraSub',sub.checked?'1':'0')}catch(e){}
+    refreshPrice();
+    if(window.refreshCartUI)window.refreshCartUI();
+  });
+  refreshPrice();
 })();
 
 // Sticky ATC appears after scrolling past buy box
@@ -240,6 +247,12 @@ document.querySelectorAll('.pcard').forEach(function(cd){
 })();
 
 // ATC -> instant Shopify checkout with the selected bundle
+var SELLING_PLAN=7894466645;
+window.isSub=function(){
+  var c=document.querySelector('.subrow input');
+  if(c)return c.checked;
+  try{return sessionStorage.getItem('luteraSub')!=='0'}catch(e){return true}
+};
 window.cartQty=(function(){try{var n=parseInt(sessionStorage.getItem('luteraQty')||'1',10);return(n>=1&&n<=10)?n:1}catch(e){return 1}})();
 window.setQty=function(n){
   n=Math.max(1,Math.min(10,n));
@@ -257,15 +270,20 @@ document.addEventListener('click',function(e){
 });
 function checkoutURL(){
   var c=[];try{c=JSON.parse(sessionStorage.getItem('luteraCart')||'[]')||[]}catch(e){}
-  if(c.length)return 'https://ru1ttu-nw.myshopify.com/cart/'+c.map(function(it){return it.v+':'+it.q}).join(',');
-  var t=document.querySelector('.tiers .tier.selected');
-  var v=t?t.getAttribute('data-variant'):'42744068243541';
-  return 'https://ru1ttu-nw.myshopify.com/cart/'+v+':'+(window.cartQty||1);
+  if(!c.length){
+    var t=document.querySelector('.tiers .tier.selected');
+    c=[{v:t?t.getAttribute('data-variant'):'42744068243541',q:window.cartQty||1}];
+  }
+  var SHOP='https://ru1ttu-nw.myshopify.com';
+  if(!(window.isSub&&window.isSub()))return SHOP+'/cart/'+c.map(function(it){return it.v+':'+it.q}).join(',');
+  // subscription: selling plans can't ride a plain permalink — chain clear -> add(selling_plan) -> checkout
+  var add='/cart/add?'+c.map(function(it){return 'items[][id]='+it.v+'&items[][quantity]='+it.q+'&items[][selling_plan]='+SELLING_PLAN}).join('&')+'&return_to='+encodeURIComponent('/checkout');
+  return SHOP+'/cart/clear?return_to='+encodeURIComponent(add);
 }
 window.updateTotals=function(){
   var t=document.querySelector('.tiers .tier.selected');if(!t)return;
   var q=window.cartQty||1;
-  var p=parseFloat(t.getAttribute('data-price')),w=parseFloat(t.getAttribute('data-was'));
+  var p=parseFloat(t.getAttribute(window.isSub&&window.isSub()?'data-sub':'data-price')),w=parseFloat(t.getAttribute('data-was'));
   document.querySelectorAll('.js-total').forEach(function(e){e.textContent='$'+(p*q).toFixed(2)});
   document.querySelectorAll('.js-wastotal').forEach(function(e){e.textContent='$'+(w*q).toFixed(2)});
 };
@@ -346,7 +364,8 @@ window.updateTotals=function(){
   try{cart=(JSON.parse(sessionStorage.getItem('luteraCart')||'[]')||[]).filter(function(it){return TIERS[it.v]&&it.q>=1&&it.q<=10})}catch(e){cart=[]}
   function saveCart(){try{sessionStorage.setItem('luteraCart',JSON.stringify(cart))}catch(e){}}
   function cartCount(){return cart.reduce(function(a,b){return a+b.q},0)}
-  function cartTotal(){return cart.reduce(function(a,b){return a+TIERS[b.v].p*b.q},0)}
+  function unitP(T){return (window.isSub&&window.isSub())?+(T.p-5).toFixed(2):T.p}
+  function cartTotal(){return cart.reduce(function(a,b){return a+unitP(TIERS[b.v])*b.q},0)}
   function freeShip(){return cartTotal()>=100||cart.some(function(it){return it.v==='42744094752853'})}
   function setCount(n){document.querySelectorAll('.cartcount').forEach(function(c){c.textContent=n;c.style.display=n?'':'none'})}
   function renderCart(){
@@ -362,9 +381,9 @@ window.updateTotals=function(){
     var html='';
     cart.forEach(function(it,i){
       var T=TIERS[it.v];
-      html+='<div class="cd-item"><img src="'+T.img+'" alt="" style="object-fit:contain"><div><b>Lutera Triple Carotenoid Formula</b><span class="cdq">'+T.t+' &middot; '+T.d+'</span>'+
+      html+='<div class="cd-item"><img src="'+T.img+'" alt="" style="object-fit:contain"><div><b>Lutera Triple Carotenoid Formula</b><span class="cdq">'+T.t+' &middot; '+T.d+((window.isSub&&window.isSub())?' &middot; <b style=\"color:#2E9E5B\">Refills monthly</b>':'')+'</span>'+
         '<div class="cdqty"><button type="button" class="cdq-btn" data-dec="'+i+'" aria-label="Decrease">&minus;</button><span class="q-val">'+it.q+'</span><button type="button" class="cdq-btn" data-inc="'+i+'" aria-label="Increase">+</button></div></div>'+
-        '<div class="cd-right"><span class="cdp">$'+(T.p*it.q).toFixed(2)+'</span><button class="cd-remove" data-rm="'+i+'" aria-label="Remove from cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v6M14 11v6"/></svg></button></div></div>';
+        '<div class="cd-right"><span class="cdp">$'+(unitP(T)*it.q).toFixed(2)+'</span><button class="cd-remove" data-rm="'+i+'" aria-label="Remove from cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v6M14 11v6"/></svg></button></div></div>';
     });
     html+='<div class="cd-gift"><span class="gico">&#128065;</span><div><b>FREE At-Home Eye Exam</b><span class="gsub">60-second vision benchmark &middot; instant access</span></div><div class="gprice"><span class="gwas">$9.99</span><span class="free-badge">FREE</span></div></div>';
     if(fs)html+='<div class="cd-gift"><span class="gico">&#128666;</span><div><b>FREE Priority Shipping</b><span class="gsub">Arrives in 5&ndash;7 business days</span></div><div class="gprice"><span class="gwas">$9.99</span><span class="free-badge">FREE</span></div></div>';
