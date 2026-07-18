@@ -48,6 +48,7 @@ function refreshPrice(){
     var pr=parseFloat(isSub?tt.getAttribute('data-sub'):tt.getAttribute('data-price'));
     el.textContent='You save '+Math.round((1-pr/parseFloat(tt.getAttribute('data-was')))*100)+'%';
   });
+  if(window.updateTotals)window.updateTotals();
 }
 document.querySelectorAll('.tiers .tier').forEach(function(t){
   t.addEventListener('click',function(){
@@ -247,6 +248,7 @@ window.setQty=function(n){
   document.querySelectorAll('.q-val').forEach(function(e){e.textContent=n});
   document.querySelectorAll('.q-minus').forEach(function(b){b.disabled=n<=1});
   document.querySelectorAll('.q-plus').forEach(function(b){b.disabled=n>=10});
+  if(window.updateTotals)window.updateTotals();
   if(window.refreshCartUI)window.refreshCartUI();
 };
 document.addEventListener('click',function(e){
@@ -254,10 +256,19 @@ document.addEventListener('click',function(e){
   else if(e.target.closest&&e.target.closest('.q-plus'))window.setQty(window.cartQty+1);
 });
 function checkoutURL(){
+  var c=[];try{c=JSON.parse(sessionStorage.getItem('luteraCart')||'[]')||[]}catch(e){}
+  if(c.length)return 'https://ru1ttu-nw.myshopify.com/cart/'+c.map(function(it){return it.v+':'+it.q}).join(',');
   var t=document.querySelector('.tiers .tier.selected');
   var v=t?t.getAttribute('data-variant'):'42744068243541';
   return 'https://ru1ttu-nw.myshopify.com/cart/'+v+':'+(window.cartQty||1);
 }
+window.updateTotals=function(){
+  var t=document.querySelector('.tiers .tier.selected');if(!t)return;
+  var q=window.cartQty||1;
+  var p=parseFloat(t.getAttribute('data-price')),w=parseFloat(t.getAttribute('data-was'));
+  document.querySelectorAll('.js-total').forEach(function(e){e.textContent='$'+(p*q).toFixed(2)});
+  document.querySelectorAll('.js-wastotal').forEach(function(e){e.textContent='$'+(w*q).toFixed(2)});
+};
 (function(){
   document.querySelectorAll('.btn-atc').forEach(function(b){
     b.addEventListener('click',function(){
@@ -315,7 +326,7 @@ function checkoutURL(){
     '<div class="cart-drawer" id="cartDrawer"><div class="cd-head"><h3>Your Cart</h3><button class="ov-close" data-close style="position:static">&times;</button></div>'+
     '<div class="cd-ship">&#127881; You unlocked <b>FREE SHIPPING</b> + the Free At-Home Eye Exam!<div class="csbar"><span></span></div></div>'+
     '<div class="cd-empty" id="cdEmpty" style="display:none"><span class="ce-ico">&#128722;</span><b>Your cart is empty</b><span>Your eyes will thank you later.</span><a class="btn" href="product.html">Shop Lutera &rarr;</a></div>'+
-    '<div class="cd-body" id="cdBody"><div class="cd-item"><img src="images/pouch-perfect.png" alt=""><div><b>Lutera Triple Carotenoid Formula</b><span class="cdq" id="cdQty">Buy 2 Get 1 FREE &middot; 90-day supply</span></div><div class="cd-right"><span class="cdp" id="cdPrice">$59.99</span><div class="cdqty"><button type="button" class="cdq-btn q-minus" aria-label="Decrease">&minus;</button><span class="q-val">1</span><button type="button" class="cdq-btn q-plus" aria-label="Increase">+</button></div><button class="cd-remove" id="cdRemove" aria-label="Remove from cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v6M14 11v6"/></svg></button></div></div>'+'<div class="cd-gift"><span class="gico">&#128065;</span><div><b>FREE At-Home Eye Exam</b><span class="gsub">60-second vision benchmark &middot; instant access</span></div><div class="gprice"><span class="gwas">$9.99</span><span class="free-badge">FREE</span></div></div>'+'<div class="cd-gift" id="cdShipGift"><span class="gico">&#128666;</span><div><b>FREE Priority Shipping</b><span class="gsub">Arrives in 5&ndash;7 business days</span></div><div class="gprice"><span class="gwas">$5.99</span><span class="free-badge">FREE</span></div></div></div>'+
+    '<div class="cd-body" id="cdBody"></div>'+
     '<div class="cd-foot"><div class="cd-savings"><span>&#127881; You\'re saving today</span><span class="amt" id="cdSave">$129.97</span></div>'+'<div class="cd-sub"><span>Subtotal</span><span id="cdSub">$59.99</span></div>'+
     '<a class="btn big" id="cdCheckout" href="https://ru1ttu-nw.myshopify.com/cart/42744068243541:1" style="text-align:center;display:block">CHECKOUT &rarr;</a>'+
     '<div class="cd-note">&#128737; 90-Day Money-Back Guarantee &middot; Secure checkout</div></div></div>';
@@ -326,46 +337,68 @@ function checkoutURL(){
   back.addEventListener('click',closeAll);
   wrap.querySelectorAll('[data-close]').forEach(function(b){b.addEventListener('click',closeAll)});
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAll()});
-  var TIERQ={'42743984324693':'Buy One \u00b7 30-day supply','42744068243541':'Buy 2 Get 1 FREE \u00b7 90-day supply','42744094752853':'Buy 3 Get 2 FREE \u00b7 150-day supply'};
-  var cartEmpty=true;
-  try{cartEmpty=sessionStorage.getItem('luteraCartHas')!=='1'}catch(e){}
+  var TIERS={
+    '42743984324693':{t:'Buy One',d:'30-day supply',img:'images/pouch-perfect.png',p:34.99,w:59.98},
+    '42744068243541':{t:'Buy 2 Get 1 FREE',d:'90-day supply',img:'images/tier-3pack.png',p:59.99,w:179.97},
+    '42744094752853':{t:'Buy 3 Get 2 FREE',d:'150-day supply',img:'images/tier-5pack.png',p:84.99,w:299.95}
+  };
+  var cart=[];
+  try{cart=(JSON.parse(sessionStorage.getItem('luteraCart')||'[]')||[]).filter(function(it){return TIERS[it.v]&&it.q>=1&&it.q<=10})}catch(e){cart=[]}
+  function saveCart(){try{sessionStorage.setItem('luteraCart',JSON.stringify(cart))}catch(e){}}
+  function cartCount(){return cart.reduce(function(a,b){return a+b.q},0)}
+  function cartTotal(){return cart.reduce(function(a,b){return a+TIERS[b.v].p*b.q},0)}
+  function freeShip(){return cartTotal()>=100||cart.some(function(it){return it.v==='42744094752853'})}
   function setCount(n){document.querySelectorAll('.cartcount').forEach(function(c){c.textContent=n;c.style.display=n?'':'none'})}
-  setCount(cartEmpty?0:1);
   function renderCart(){
-    var dr=document.getElementById('cartDrawer');
-    document.getElementById('cdEmpty').style.display=cartEmpty?'flex':'none';
-    document.getElementById('cdBody').style.display=cartEmpty?'none':'';
-    var foot=dr.querySelector('.cd-foot');if(foot)foot.style.display=cartEmpty?'none':'';
-    var ban=dr.querySelector('.cd-ship');if(ban)ban.style.display=cartEmpty?'none':'';
-    if(cartEmpty)return;
-    var tier=document.querySelector('.tiers .tier.selected');
-    var big=tier&&tier.getAttribute('data-ship')==='free';
-    if(tier){var v=tier.getAttribute('data-variant');if(TIERQ[v])document.getElementById('cdQty').textContent=TIERQ[v];}else{var q0=document.getElementById('cdQty');q0.textContent=q0.textContent.split(' \u00d7 ')[0];}
-    var shipRow=document.getElementById('cdShipGift');
-    if(shipRow)shipRow.style.display=big?'flex':'none';
-    if(ban)ban.innerHTML=big
-      ?'&#127881; You unlocked <b>FREE PRIORITY SHIPPING</b> + the Free At-Home Eye Exam!<div class="csbar"><span style="width:100%"></span></div>'
-      :'&#128666; Upgrade to <b>Buy 3 Get 2 FREE</b> to unlock FREE Priority Shipping!<div class="csbar"><span style="width:66%"></span></div>';
-    var qty=window.cartQty||1;
-    var p=document.querySelector('.buybox .js-price');
-    var unit=p?parseFloat(p.textContent.replace('$','')):(tier?parseFloat(tier.getAttribute('data-price')):59.99);
-    document.getElementById('cdPrice').textContent='$'+(unit*qty).toFixed(2);
-    document.getElementById('cdSub').textContent='$'+(unit*qty).toFixed(2);
-    var w=document.querySelector('.buybox .js-was');
-    var wasUnit=w?parseFloat(w.textContent.replace('$','')):(tier?parseFloat(tier.getAttribute('data-was')):179.97);
-    var save=(wasUnit-unit)*qty+9.99+(big?5.99:0);
+    var dr=document.getElementById('cartDrawer'),body=document.getElementById('cdBody');
+    var empty=cart.length===0;
+    document.getElementById('cdEmpty').style.display=empty?'flex':'none';
+    body.style.display=empty?'none':'';
+    var foot=dr.querySelector('.cd-foot');if(foot)foot.style.display=empty?'none':'';
+    var ban=dr.querySelector('.cd-ship');if(ban)ban.style.display=empty?'none':'';
+    setCount(cartCount());
+    if(empty)return;
+    var fs=freeShip(),total=cartTotal();
+    var html='';
+    cart.forEach(function(it,i){
+      var T=TIERS[it.v];
+      html+='<div class="cd-item"><img src="'+T.img+'" alt="" style="object-fit:contain"><div><b>Lutera Triple Carotenoid Formula</b><span class="cdq">'+T.t+' &middot; '+T.d+'</span>'+
+        '<div class="cdqty"><button type="button" class="cdq-btn" data-dec="'+i+'" aria-label="Decrease">&minus;</button><span class="q-val">'+it.q+'</span><button type="button" class="cdq-btn" data-inc="'+i+'" aria-label="Increase">+</button></div></div>'+
+        '<div class="cd-right"><span class="cdp">$'+(T.p*it.q).toFixed(2)+'</span><button class="cd-remove" data-rm="'+i+'" aria-label="Remove from cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v6M14 11v6"/></svg></button></div></div>';
+    });
+    html+='<div class="cd-gift"><span class="gico">&#128065;</span><div><b>FREE At-Home Eye Exam</b><span class="gsub">60-second vision benchmark &middot; instant access</span></div><div class="gprice"><span class="gwas">$9.99</span><span class="free-badge">FREE</span></div></div>';
+    if(fs)html+='<div class="cd-gift"><span class="gico">&#128666;</span><div><b>FREE Priority Shipping</b><span class="gsub">Arrives in 5&ndash;7 business days</span></div><div class="gprice"><span class="gwas">$9.99</span><span class="free-badge">FREE</span></div></div>';
+    body.innerHTML=html;
+    var wasTotal=cart.reduce(function(a,b){return a+TIERS[b.v].w*b.q},0);
+    var save=(wasTotal-total)+9.99+(fs?9.99:0);
     document.getElementById('cdSave').textContent='$'+save.toFixed(2);
-    var q2=document.getElementById('cdQty');
-    if(q2&&qty>1&&q2.textContent.indexOf('\u00d7')===-1)q2.textContent=q2.textContent+' \u00d7 '+qty;
-    setCount(qty);
+    document.getElementById('cdSub').textContent='$'+total.toFixed(2);
+    if(ban)ban.innerHTML=fs
+      ?'&#127881; You unlocked <b>FREE PRIORITY SHIPPING</b> + the Free At-Home Eye Exam!<div class="csbar"><span style="width:100%"></span></div>'
+      :'&#128666; Add <b>$'+(100-total).toFixed(2)+'</b> more to unlock <b>FREE Priority Shipping</b>!<div class="csbar"><span style="width:'+Math.min(96,Math.round(total))+'%"></span></div>';
     var co=document.getElementById('cdCheckout');
     if(co&&typeof checkoutURL==='function')co.href=checkoutURL();
   }
-  window.refreshCartUI=function(){if(!cartEmpty)renderCart();};
+  window.refreshCartUI=renderCart;
   document.addEventListener('click',function(ev){
-    if(ev.target.closest&&ev.target.closest('#cdRemove')){cartEmpty=true;try{sessionStorage.removeItem('luteraCartHas')}catch(e){}setCount(0);renderCart();}
+    if(!ev.target.closest)return;
+    var rm=ev.target.closest('[data-rm]'),inc=ev.target.closest('[data-inc]'),dec=ev.target.closest('[data-dec]');
+    if(rm){cart.splice(parseInt(rm.getAttribute('data-rm'),10),1);saveCart();renderCart();}
+    else if(inc){var a=cart[parseInt(inc.getAttribute('data-inc'),10)];if(a&&a.q<10)a.q++;saveCart();renderCart();}
+    else if(dec){var b=cart[parseInt(dec.getAttribute('data-dec'),10)];if(b){if(b.q>1)b.q--;else cart.splice(cart.indexOf(b),1);}saveCart();renderCart();}
   });
-  window.openCartDrawer=function(){cartEmpty=false;try{sessionStorage.setItem('luteraCartHas','1')}catch(e){}setCount(window.cartQty||1);renderCart();open('cartDrawer');};
+  window.openCartDrawer=function(){
+    var t=document.querySelector('.tiers .tier.selected');
+    var v=t?t.getAttribute('data-variant'):'42744068243541';
+    var q=window.cartQty||1;
+    var ex=null;
+    cart.forEach(function(it){if(it.v===v)ex=it});
+    if(ex)ex.q=Math.min(10,ex.q+q);else cart.push({v:v,q:q});
+    saveCart();
+    if(window.setQty)window.setQty(1);
+    renderCart();open('cartDrawer');
+  };
+  renderCart();
   var icons=document.querySelectorAll('.hicon');
   icons.forEach(function(ic){
     var k=ic.getAttribute('data-i');

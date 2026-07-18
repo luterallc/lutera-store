@@ -1401,3 +1401,8 @@ section{padding:38px 0}
 .cdqty .cdq-btn:disabled{opacity:.3}
 .cdqty .q-val{min-width:22px;text-align:center;font-weight:800;font-size:13px;color:var(--dark)}
 @media(max-width:919px){.qty-step button{width:44px;height:40px}}
+
+/* live33: multi-item cart */
+.info2 .sp .sticky-price{color:var(--accent);font-weight:800;font-size:18px;font-family:'Poppins',sans-serif}
+@media(max-width:919px){.info2 .sp .sticky-price{font-size:16px}}
+.cd-item+.cd-item{border-top:1px dashed var(--line);margin-top:4px;padding-top:10px}
