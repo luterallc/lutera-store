@@ -239,10 +239,24 @@ document.querySelectorAll('.pcard').forEach(function(cd){
 })();
 
 // ATC -> instant Shopify checkout with the selected bundle
+window.cartQty=(function(){try{var n=parseInt(sessionStorage.getItem('luteraQty')||'1',10);return(n>=1&&n<=10)?n:1}catch(e){return 1}})();
+window.setQty=function(n){
+  n=Math.max(1,Math.min(10,n));
+  window.cartQty=n;
+  try{sessionStorage.setItem('luteraQty',String(n))}catch(e){}
+  document.querySelectorAll('.q-val').forEach(function(e){e.textContent=n});
+  document.querySelectorAll('.q-minus').forEach(function(b){b.disabled=n<=1});
+  document.querySelectorAll('.q-plus').forEach(function(b){b.disabled=n>=10});
+  if(window.refreshCartUI)window.refreshCartUI();
+};
+document.addEventListener('click',function(e){
+  if(e.target.closest&&e.target.closest('.q-minus'))window.setQty(window.cartQty-1);
+  else if(e.target.closest&&e.target.closest('.q-plus'))window.setQty(window.cartQty+1);
+});
 function checkoutURL(){
   var t=document.querySelector('.tiers .tier.selected');
   var v=t?t.getAttribute('data-variant'):'42744068243541';
-  return 'https://ru1ttu-nw.myshopify.com/cart/'+v+':1';
+  return 'https://ru1ttu-nw.myshopify.com/cart/'+v+':'+(window.cartQty||1);
 }
 (function(){
   document.querySelectorAll('.btn-atc').forEach(function(b){
@@ -301,7 +315,7 @@ function checkoutURL(){
     '<div class="cart-drawer" id="cartDrawer"><div class="cd-head"><h3>Your Cart</h3><button class="ov-close" data-close style="position:static">&times;</button></div>'+
     '<div class="cd-ship">&#127881; You unlocked <b>FREE SHIPPING</b> + the Free At-Home Eye Exam!<div class="csbar"><span></span></div></div>'+
     '<div class="cd-empty" id="cdEmpty" style="display:none"><span class="ce-ico">&#128722;</span><b>Your cart is empty</b><span>Your eyes will thank you later.</span><a class="btn" href="product.html">Shop Lutera &rarr;</a></div>'+
-    '<div class="cd-body" id="cdBody"><div class="cd-item"><img src="images/pouch-perfect.png" alt=""><div><b>Lutera Triple Carotenoid Formula</b><span class="cdq" id="cdQty">Buy 2 Get 1 FREE &middot; 90-day supply</span></div><div class="cd-right"><span class="cdp" id="cdPrice">$59.99</span><button class="cd-remove" id="cdRemove" aria-label="Remove from cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v6M14 11v6"/></svg></button></div></div>'+'<div class="cd-gift"><span class="gico">&#128065;</span><div><b>FREE At-Home Eye Exam</b><span class="gsub">60-second vision benchmark &middot; instant access</span></div><div class="gprice"><span class="gwas">$9.99</span><span class="free-badge">FREE</span></div></div>'+'<div class="cd-gift" id="cdShipGift"><span class="gico">&#128666;</span><div><b>FREE Priority Shipping</b><span class="gsub">Arrives in 5&ndash;7 business days</span></div><div class="gprice"><span class="gwas">$5.99</span><span class="free-badge">FREE</span></div></div></div>'+
+    '<div class="cd-body" id="cdBody"><div class="cd-item"><img src="images/pouch-perfect.png" alt=""><div><b>Lutera Triple Carotenoid Formula</b><span class="cdq" id="cdQty">Buy 2 Get 1 FREE &middot; 90-day supply</span></div><div class="cd-right"><span class="cdp" id="cdPrice">$59.99</span><div class="cdqty"><button type="button" class="cdq-btn q-minus" aria-label="Decrease">&minus;</button><span class="q-val">1</span><button type="button" class="cdq-btn q-plus" aria-label="Increase">+</button></div><button class="cd-remove" id="cdRemove" aria-label="Remove from cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v6M14 11v6"/></svg></button></div></div>'+'<div class="cd-gift"><span class="gico">&#128065;</span><div><b>FREE At-Home Eye Exam</b><span class="gsub">60-second vision benchmark &middot; instant access</span></div><div class="gprice"><span class="gwas">$9.99</span><span class="free-badge">FREE</span></div></div>'+'<div class="cd-gift" id="cdShipGift"><span class="gico">&#128666;</span><div><b>FREE Priority Shipping</b><span class="gsub">Arrives in 5&ndash;7 business days</span></div><div class="gprice"><span class="gwas">$5.99</span><span class="free-badge">FREE</span></div></div></div>'+
     '<div class="cd-foot"><div class="cd-savings"><span>&#127881; You\'re saving today</span><span class="amt" id="cdSave">$129.97</span></div>'+'<div class="cd-sub"><span>Subtotal</span><span id="cdSub">$59.99</span></div>'+
     '<a class="btn big" id="cdCheckout" href="https://ru1ttu-nw.myshopify.com/cart/42744068243541:1" style="text-align:center;display:block">CHECKOUT &rarr;</a>'+
     '<div class="cd-note">&#128737; 90-Day Money-Back Guarantee &middot; Secure checkout</div></div></div>';
@@ -326,24 +340,32 @@ function checkoutURL(){
     if(cartEmpty)return;
     var tier=document.querySelector('.tiers .tier.selected');
     var big=tier&&tier.getAttribute('data-ship')==='free';
-    if(tier){var v=tier.getAttribute('data-variant');if(TIERQ[v])document.getElementById('cdQty').textContent=TIERQ[v];}
+    if(tier){var v=tier.getAttribute('data-variant');if(TIERQ[v])document.getElementById('cdQty').textContent=TIERQ[v];}else{var q0=document.getElementById('cdQty');q0.textContent=q0.textContent.split(' \u00d7 ')[0];}
     var shipRow=document.getElementById('cdShipGift');
     if(shipRow)shipRow.style.display=big?'flex':'none';
     if(ban)ban.innerHTML=big
       ?'&#127881; You unlocked <b>FREE PRIORITY SHIPPING</b> + the Free At-Home Eye Exam!<div class="csbar"><span style="width:100%"></span></div>'
       :'&#128666; Upgrade to <b>Buy 3 Get 2 FREE</b> to unlock FREE Priority Shipping!<div class="csbar"><span style="width:66%"></span></div>';
+    var qty=window.cartQty||1;
     var p=document.querySelector('.buybox .js-price');
-    if(p){document.getElementById('cdPrice').textContent=p.textContent;document.getElementById('cdSub').textContent=p.textContent;
-      var w=document.querySelector('.buybox .js-was');
-      if(w){var save=(parseFloat(w.textContent.replace('$',''))-parseFloat(p.textContent.replace('$','')))+9.99+(big?5.99:0);
-      document.getElementById('cdSave').textContent='$'+save.toFixed(2);}}
+    var unit=p?parseFloat(p.textContent.replace('$','')):(tier?parseFloat(tier.getAttribute('data-price')):59.99);
+    document.getElementById('cdPrice').textContent='$'+(unit*qty).toFixed(2);
+    document.getElementById('cdSub').textContent='$'+(unit*qty).toFixed(2);
+    var w=document.querySelector('.buybox .js-was');
+    var wasUnit=w?parseFloat(w.textContent.replace('$','')):(tier?parseFloat(tier.getAttribute('data-was')):179.97);
+    var save=(wasUnit-unit)*qty+9.99+(big?5.99:0);
+    document.getElementById('cdSave').textContent='$'+save.toFixed(2);
+    var q2=document.getElementById('cdQty');
+    if(q2&&qty>1&&q2.textContent.indexOf('\u00d7')===-1)q2.textContent=q2.textContent+' \u00d7 '+qty;
+    setCount(qty);
     var co=document.getElementById('cdCheckout');
     if(co&&typeof checkoutURL==='function')co.href=checkoutURL();
   }
+  window.refreshCartUI=function(){if(!cartEmpty)renderCart();};
   document.addEventListener('click',function(ev){
     if(ev.target.closest&&ev.target.closest('#cdRemove')){cartEmpty=true;try{sessionStorage.removeItem('luteraCartHas')}catch(e){}setCount(0);renderCart();}
   });
-  window.openCartDrawer=function(){cartEmpty=false;try{sessionStorage.setItem('luteraCartHas','1')}catch(e){}setCount(1);renderCart();open('cartDrawer');};
+  window.openCartDrawer=function(){cartEmpty=false;try{sessionStorage.setItem('luteraCartHas','1')}catch(e){}setCount(window.cartQty||1);renderCart();open('cartDrawer');};
   var icons=document.querySelectorAll('.hicon');
   icons.forEach(function(ic){
     var k=ic.getAttribute('data-i');
@@ -421,3 +443,6 @@ function checkoutURL(){
   var d2=new Date(t.getFullYear(),t.getMonth(),t.getDate()+9);
   a.textContent=fmt(d1);b.textContent=fmt(d2);
 })();
+
+// initialize quantity displays from stored value
+if(window.setQty)window.setQty(window.cartQty||1);
