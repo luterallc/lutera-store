@@ -161,7 +161,7 @@ h2{font-size:21px;font-weight:600;color:#333}
       <span id="perkShip" style="display:none">&#128666; FREE Priority Shipping <s>$9.99</s> <span class="free">FREE</span></span>
       <span>&#128737; 90-Day Money-Back Guarantee</span>
     </div>
-    <div class="hype-timer">250th Anniversary Sale price locked in for <b class="js-timer">--:--:--</b></div>
+    <div class="hype-timer">&#128722; Your cart &amp; sale price are reserved for <b class="js-timer">05:00</b></div>
   </div>
 </div>
 
@@ -376,17 +376,19 @@ function render(){
 }
 render();
 
-// evergreen sale timer — same key + loop as the storefront so the clock never contradicts itself
+// checkout price-lock timer — 5-minute urgency countdown that starts when the buyer lands on
+// checkout, persists across reload (own key, not the storefront sale clock), and loops so it
+// never sits dead at 00:00. Shown as MM:SS.
 (function(){
-  var KEY='lutera_sale_end', DUR=2*60*60*1000;
-  var end=0;try{end=parseInt(localStorage.getItem(KEY)||'0',10)}catch(e){}
-  if(!end||end<Date.now()){end=Date.now()+DUR;try{localStorage.setItem(KEY,String(end))}catch(e){}}
+  var KEY='lutera_checkout_lock', DUR=5*60*1000;
+  var end=0;try{end=parseInt(sessionStorage.getItem(KEY)||'0',10)}catch(e){}
+  if(!end||end<Date.now()){end=Date.now()+DUR;try{sessionStorage.setItem(KEY,String(end))}catch(e){}}
   function pad(n){return String(n).padStart(2,'0')}
   function tick(){
     var left=end-Date.now();
-    if(left<=0){end=Date.now()+DUR;try{localStorage.setItem(KEY,String(end))}catch(e){}left=DUR;}
-    var h=Math.floor(left/3600000),m=Math.floor(left%3600000/60000),s=Math.floor(left%60000/1000);
-    document.querySelectorAll('.js-timer').forEach(function(e){e.textContent=pad(h)+':'+pad(m)+':'+pad(s)});
+    if(left<=0){end=Date.now()+DUR;try{sessionStorage.setItem(KEY,String(end))}catch(e){}left=DUR;}
+    var m=Math.floor(left/60000),s=Math.floor(left%60000/1000);
+    document.querySelectorAll('.js-timer').forEach(function(e){e.textContent=pad(m)+':'+pad(s)});
   }
   tick();setInterval(tick,1000);
 })();
