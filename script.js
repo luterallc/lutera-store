@@ -346,7 +346,7 @@ window.updateTotals=function(){
     '<div class="cd-empty" id="cdEmpty" style="display:none"><span class="ce-ico">&#128722;</span><b>Your cart is empty</b><span>Your eyes will thank you later.</span><a class="btn" href="product.html">Shop Lutera &rarr;</a></div>'+
     '<div class="cd-body" id="cdBody"></div>'+
     '<div class="cd-foot"><div class="cd-savings"><span>&#127881; You\'re saving today</span><span class="amt" id="cdSave">$129.97</span></div>'+'<div class="cd-sub"><span>Subtotal</span><span id="cdSub">$59.99</span></div>'+
-    '<a class="btn big" id="cdCheckout" href="https://ru1ttu-nw.myshopify.com/cart/42744068243541:1" style="text-align:center;display:block">CHECKOUT &rarr;</a>'+
+    '<a class="btn big" id="cdCheckout" href="checkout.html" style="text-align:center;display:block">CHECKOUT &rarr;</a>'+
     '<div class="cd-note">&#128737; 90-Day Money-Back Guarantee &middot; Secure checkout</div></div></div>';
   document.body.appendChild(wrap);
   var back=document.getElementById('ovBack');
@@ -395,8 +395,6 @@ window.updateTotals=function(){
     if(ban)ban.innerHTML=fs
       ?'&#127881; You unlocked <b>FREE PRIORITY SHIPPING</b> + the Free At-Home Eye Exam!<div class="csbar"><span style="width:100%"></span></div>'
       :'&#128666; Add <b>$'+(100-total).toFixed(2)+'</b> more to unlock <b>FREE Priority Shipping</b>!<div class="csbar"><span style="width:'+Math.min(96,Math.round(total))+'%"></span></div>';
-    var co=document.getElementById('cdCheckout');
-    if(co&&typeof checkoutURL==='function')co.href=checkoutURL();
   }
   window.refreshCartUI=renderCart;
   document.addEventListener('click',function(ev){

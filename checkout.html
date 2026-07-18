@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Checkout &middot; Get Lutera</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="favicon.png?v=1"><link rel="apple-touch-icon" href="apple-touch-icon.png?v=1">
+<style>
+/* Shopify-checkout replica chrome — self-contained on purpose (system fonts, not the store theme) */
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:14px;color:#333;background:#fff;-webkit-font-smoothing:antialiased}
+a{color:#1773B0;text-decoration:none}
+a:hover{text-decoration:underline}
+.co-head{border-bottom:1px solid #DEDEDE;background:#fff}
+.co-head-in{max-width:1100px;margin:0 auto;padding:21px;display:flex;align-items:center;justify-content:space-between}
+.store-name{font-size:20px;font-weight:700;color:#333}
+.store-name:hover{text-decoration:none}
+.head-bag{display:flex;align-items:center}
+.head-bag svg{width:22px;height:22px;stroke:#1773B0}
+
+/* mobile collapsed order summary */
+.sum-toggle{display:none;width:100%;background:#F5F5F5;border-bottom:1px solid #DEDEDE;cursor:pointer;border-top:none;font:inherit;text-align:left}
+.sum-toggle-in{max-width:660px;margin:0 auto;padding:14px 21px;display:flex;align-items:center;justify-content:space-between}
+.sum-toggle .lbl{color:#1773B0;display:inline-flex;align-items:center;gap:6px}
+.sum-toggle .lbl svg{width:12px;height:12px;transition:transform .2s}
+.sum-toggle.open .lbl svg{transform:rotate(180deg)}
+.sum-toggle .tot{font-size:16px;font-weight:600;color:#333}
+.sum-drawer{display:none;background:#FAFAFA;border-bottom:1px solid #DEDEDE}
+.sum-drawer.open{display:block}
+.sum-drawer-in{max-width:660px;margin:0 auto;padding:21px}
+
+.page{display:flex;min-height:calc(100vh - 65px)}
+.main{flex:1;display:flex;justify-content:flex-end}
+.main-in{width:100%;max-width:660px;padding:38px 44px 24px}
+.side{width:42%;background:#FAFAFA;border-left:1px solid #DEDEDE}
+.side-in{max-width:480px;padding:38px 44px;position:sticky;top:0}
+
+/* order summary items */
+.li{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.li-thumb{position:relative;flex:none}
+.li-thumb img{width:64px;height:64px;object-fit:contain;border:1px solid #DBDBDB;border-radius:8px;background:#fff}
+.li-qty{position:absolute;top:-8px;right:-8px;min-width:22px;height:22px;padding:0 4px;border-radius:11px;background:rgba(114,114,114,.92);color:#fff;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.li-info{flex:1;min-width:0}
+.li-info b{font-size:14px;font-weight:500;display:block}
+.li-info span{font-size:12px;color:#737373}
+.li-price{font-size:14px;font-weight:500}
+.totals{margin-top:8px}
+.trow{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:14px}
+.trow .muted{color:#737373;font-size:13px}
+.trow.grand{margin-top:8px;padding-top:14px;border-top:1px solid #DEDEDE}
+.trow.grand .l{font-size:16px;font-weight:600}
+.trow.grand .r{font-size:21px;font-weight:600}
+.trow.grand .cur{font-size:12px;color:#737373;font-weight:400;margin-right:6px;vertical-align:2px}
+
+/* express checkout */
+.express-lbl{text-align:center;font-size:14px;color:#545454;margin-bottom:14px}
+.express .xrow{display:flex;gap:12px;margin-bottom:12px}
+.xbtn{flex:1;height:54px;border:none;border-radius:5px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.xbtn:hover{filter:brightness(.96);text-decoration:none}
+.xbtn.shop{background:#5A31F4}
+.xbtn.paypal{background:#FFC439}
+.xbtn.gpay{background:#000}
+.xbtn svg{height:24px}
+.legal{font-size:12px;color:#545454;line-height:1.5;margin-top:2px}
+.or{display:flex;align-items:center;gap:14px;margin:21px 0;color:#737373;font-size:13px}
+.or:before,.or:after{content:"";flex:1;height:1px;background:#DEDEDE}
+
+/* sections + floating-label fields */
+section{margin-bottom:28px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+h2{font-size:21px;font-weight:600;color:#333}
+.sec-head a{font-size:14px}
+.fld{position:relative;margin-bottom:14px}
+.fld input,.fld select{width:100%;height:52px;padding:20px 12px 6px;border:1px solid #DEDEDE;border-radius:5px;background:#fff;font:inherit;font-size:14px;color:#333;appearance:none;-webkit-appearance:none}
+.fld input:focus,.fld select:focus{outline:none;border-color:#1773B0;box-shadow:0 0 0 1px #1773B0}
+.fld label{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#707070;font-size:14px;pointer-events:none;transition:top .12s,font-size .12s;white-space:nowrap;max-width:calc(100% - 44px);overflow:hidden;text-overflow:ellipsis}
+.fld input:focus + label,.fld input:not(:placeholder-shown) + label,.fld.floated label{top:14px;font-size:12px}
+.fld .ico{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#707070;display:flex}
+.fld .ico svg{width:18px;height:18px}
+.fld select + label{top:14px;font-size:12px}
+.fld .chev{pointer-events:none}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.row2 .fld,.row3 .fld{margin-bottom:14px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.fld.err input,.fld.err select{border-color:#D72C0D;box-shadow:0 0 0 1px #D72C0D}
+.fld.err label{color:#D72C0D}
+.err-msg{display:none;color:#D72C0D;font-size:12px;margin:-8px 0 12px 1px}
+.err-msg.show{display:block}
+
+/* shipping method placeholder — same as Shopify pre-address state */
+.ship-box{border:1px solid #DEDEDE;border-radius:5px;background:#F5F5F5;padding:17px 14px;font-size:14px;color:#707070}
+
+.pay-btn{width:100%;height:56px;border:none;border-radius:5px;background:#1773B0;color:#fff;font:inherit;font-size:16px;font-weight:600;cursor:pointer;margin-top:4px}
+.pay-btn:hover{background:#14639E}
+.secure{display:flex;align-items:center;justify-content:center;gap:7px;color:#737373;font-size:13px;margin:14px 0 4px}
+.secure svg{width:14px;height:14px}
+
+.co-foot{border-top:1px solid #DEDEDE;margin-top:28px;padding:18px 0 8px;display:flex;flex-wrap:wrap;gap:4px 16px}
+.co-foot a{font-size:12px}
+
+@media (max-width:1000px){
+  .side{display:none}
+  .sum-toggle{display:block}
+  .main{justify-content:center}
+  .main-in{padding:24px 21px}
+}
+@media (max-width:480px){
+  .express .xrow.duo{gap:10px}
+  .co-head-in{padding:16px 21px}
+}
+</style>
+</head>
+<body>
+
+<header class="co-head">
+  <div class="co-head-in">
+    <a class="store-name" href="index.html">Get Lutera</a>
+    <a class="head-bag" href="product.html" aria-label="Back to cart">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 8h13l-1 12.5h-11z"/><path d="M9 10V6.5a3 3 0 016 0V10"/></svg>
+    </a>
+  </div>
+</header>
+
+<button class="sum-toggle" id="sumToggle" type="button" aria-expanded="false">
+  <span class="sum-toggle-in">
+    <span class="lbl">Order summary
+      <svg viewBox="0 0 12 8" fill="none"><path d="M1 1.5l5 5 5-5" stroke="#1773B0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+    <span class="tot js-grand">$0.00</span>
+  </span>
+</button>
+<div class="sum-drawer" id="sumDrawer">
+  <div class="sum-drawer-in">
+    <div class="js-items"></div>
+    <div class="totals js-totals"></div>
+  </div>
+</div>
+
+<div class="page">
+  <main class="main">
+    <div class="main-in">
+
+      <div class="express">
+        <div class="express-lbl">Express checkout</div>
+        <div class="xrow">
+          <a class="xbtn shop js-express" href="#" aria-label="Shop Pay">
+            <svg viewBox="0 0 60 24"><text x="30" y="17.5" font-size="16" font-weight="800" fill="#fff" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">shop</text></svg>
+          </a>
+        </div>
+        <div class="xrow duo">
+          <a class="xbtn paypal js-express" href="#" aria-label="PayPal">
+            <svg viewBox="0 0 80 28"><path fill="#003087" transform="translate(6,4) scale(0.78)" d="M7.016 19.198h-4.2a.562.562 0 0 1-.555-.65L5.093.584A.692.692 0 0 1 5.776 0h7.222c3.417 0 5.904 2.488 5.846 5.5-.006.25-.027.5-.066.747A6.794 6.794 0 0 1 12.071 12H8.743a.69.69 0 0 0-.682.583l-.325 2.056-.013.083-.692 4.39-.015.087zM19.79 6.142c-.01.087-.01.175-.023.261a7.76 7.76 0 0 1-7.695 6.598H9.007l-.283 1.795-.013.083-.692 4.39-.134.843-.014.088H6.86l-.497 3.15a.562.562 0 0 0 .555.65h3.612c.34 0 .63-.249.683-.585l.952-6.031a.692.692 0 0 1 .683-.584h2.126a6.793 6.793 0 0 0 6.707-5.752c.306-1.95-.466-3.744-1.89-4.906z"/><text x="47" y="19.5" font-size="15" font-weight="800" font-style="italic" text-anchor="middle" font-family="Arial,Helvetica,sans-serif"><tspan fill="#003087">Pay</tspan><tspan fill="#009CDE">Pal</tspan></text></svg>
+          </a>
+          <a class="xbtn gpay js-express" href="#" aria-label="Google Pay">
+            <svg viewBox="0 0 60 26"><g transform="translate(6,1.5) scale(0.95)"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></g><text x="36" y="18.5" font-size="14" font-weight="600" fill="#fff" font-family="Arial,Helvetica,sans-serif">Pay</text></svg>
+          </a>
+        </div>
+        <p class="legal" id="subLegal">By continuing with your payment, you agree to the future charges listed on this page and the <a href="refund-policy.html">cancellation policy</a>.</p>
+      </div>
+
+      <div class="or">OR</div>
+
+      <form id="coForm" novalidate>
+        <section>
+          <div class="sec-head">
+            <h2>Contact</h2>
+            <a href="https://ru1ttu-nw.myshopify.com/account/login">Sign in</a>
+          </div>
+          <div class="fld" id="f-email">
+            <input type="email" id="email" placeholder=" " autocomplete="email" required>
+            <label for="email">Email</label>
+            <span class="ico" title="In case we need to contact you about your order">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.2a2.4 2.4 0 114 1.7c-.7.7-1.6 1-1.6 2.1"/><path d="M12 16.4v.2"/></svg>
+            </span>
+          </div>
+          <p class="err-msg" data-for="f-email">Enter a valid email</p>
+        </section>
+
+        <section>
+          <div class="sec-head"><h2>Delivery</h2></div>
+          <div class="fld floated">
+            <select id="country" autocomplete="country-name">
+              <option selected>United States</option>
+            </select>
+            <label for="country">Country/Region</label>
+            <span class="ico chev">
+              <svg viewBox="0 0 14 9" fill="none"><path d="M1 1.5l6 6 6-6" stroke="#333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </div>
+          <div class="row2">
+            <div class="fld" id="f-first">
+              <input type="text" id="first" placeholder=" " autocomplete="given-name">
+              <label for="first">First name (optional)</label>
+            </div>
+            <div class="fld" id="f-last">
+              <input type="text" id="last" placeholder=" " autocomplete="family-name" required>
+              <label for="last">Last name</label>
+            </div>
+          </div>
+          <p class="err-msg" data-for="f-last">Enter a last name</p>
+          <div class="fld" id="f-addr">
+            <input type="text" id="addr" placeholder=" " autocomplete="address-line1" required>
+            <label for="addr">Address</label>
+            <span class="ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg>
+            </span>
+          </div>
+          <p class="err-msg" data-for="f-addr">Enter an address</p>
+          <div class="fld" id="f-addr2">
+            <input type="text" id="addr2" placeholder=" " autocomplete="address-line2">
+            <label for="addr2">Apartment, suite, etc. (optional)</label>
+          </div>
+          <div class="row3">
+            <div class="fld" id="f-city">
+              <input type="text" id="city" placeholder=" " autocomplete="address-level2" required>
+              <label for="city">City</label>
+            </div>
+            <div class="fld floated" id="f-state">
+              <select id="state" autocomplete="address-level1" required>
+                <option value=""></option>
+              </select>
+              <label for="state">State</label>
+              <span class="ico chev">
+                <svg viewBox="0 0 14 9" fill="none"><path d="M1 1.5l6 6 6-6" stroke="#333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+            <div class="fld" id="f-zip">
+              <input type="text" id="zip" placeholder=" " autocomplete="postal-code" inputmode="numeric" required>
+              <label for="zip">ZIP code</label>
+            </div>
+          </div>
+          <p class="err-msg" data-for="f-city">Enter a city</p>
+          <p class="err-msg" data-for="f-state">Select a state</p>
+          <p class="err-msg" data-for="f-zip">Enter a ZIP code</p>
+          <div class="fld" id="f-phone">
+            <input type="tel" id="phone" placeholder=" " autocomplete="tel">
+            <label for="phone">Phone (optional)</label>
+            <span class="ico" title="In case we need to contact you about delivery">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.2a2.4 2.4 0 114 1.7c-.7.7-1.6 1-1.6 2.1"/><path d="M12 16.4v.2"/></svg>
+            </span>
+          </div>
+        </section>
+
+        <section>
+          <div class="sec-head"><h2>Shipping method</h2></div>
+          <div class="ship-box">Enter your shipping address to view available shipping methods.</div>
+        </section>
+
+        <button class="pay-btn" type="submit">Continue to payment</button>
+        <div class="secure">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>
+          All transactions are secure and encrypted
+        </div>
+      </form>
+
+      <div class="co-foot">
+        <a href="refund-policy.html">Refund policy</a>
+        <a href="shipping-policy.html">Shipping policy</a>
+        <a href="privacy.html">Privacy policy</a>
+        <a href="terms.html">Terms of service</a>
+      </div>
+
+    </div>
+  </main>
+
+  <aside class="side">
+    <div class="side-in">
+      <div class="js-items"></div>
+      <div class="totals js-totals"></div>
+    </div>
+  </aside>
+</div>
+
+<script>
+// Same cart engine as script.js — variants, prices, sessionStorage keys must stay in sync
+var TIERS={
+  '42743984324693':{t:'Buy One',d:'30-day supply',img:'images/pouch-perfect.png',p:34.99,w:59.98},
+  '42744068243541':{t:'Buy 2 Get 1 FREE',d:'90-day supply',img:'images/tier-3pack.png',p:59.99,w:179.97},
+  '42744094752853':{t:'Buy 3 Get 2 FREE',d:'150-day supply',img:'images/tier-5pack.png',p:84.99,w:299.95}
+};
+var SHOP='https://ru1ttu-nw.myshopify.com';
+var SELLING_PLAN=7894466645;
+function isSub(){try{return sessionStorage.getItem('luteraSub')!=='0'}catch(e){return true}}
+function unitP(T){return isSub()?+(T.p-5).toFixed(2):T.p}
+function getCart(){
+  var c=[];
+  try{c=(JSON.parse(sessionStorage.getItem('luteraCart')||'[]')||[]).filter(function(it){return TIERS[it.v]&&it.q>=1&&it.q<=10})}catch(e){}
+  if(!c.length){
+    var q=1;try{q=parseInt(sessionStorage.getItem('luteraQty')||'1',10)||1}catch(e){}
+    c=[{v:'42744068243541',q:Math.max(1,Math.min(10,q))}];
+  }
+  return c;
+}
+var cart=getCart();
+function cartTotal(){return cart.reduce(function(a,b){return a+unitP(TIERS[b.v])*b.q},0)}
+function cartCount(){return cart.reduce(function(a,b){return a+b.q},0)}
+function freeShip(){return cartTotal()>=100||cart.some(function(it){return it.v==='42744094752853'})}
+function money(n){return '$'+n.toFixed(2)}
+
+function render(){
+  var items='',sub=isSub();
+  cart.forEach(function(it){
+    var T=TIERS[it.v];
+    items+='<div class="li"><div class="li-thumb"><img src="'+T.img+'" alt=""><span class="li-qty">'+it.q+'</span></div>'+
+      '<div class="li-info"><b>Lutera Triple Carotenoid Formula</b><span>'+T.t+' &middot; '+T.d+(sub?' &middot; Refills monthly':'')+'</span></div>'+
+      '<div class="li-price">'+money(unitP(T)*it.q)+'</div></div>';
+  });
+  var total=cartTotal(),n=cartCount();
+  var totals='<div class="trow"><span>Subtotal &middot; '+n+(n===1?' item':' items')+'</span><span>'+money(total)+'</span></div>'+
+    '<div class="trow"><span>Shipping</span><span class="muted">'+(freeShip()?'FREE':'Calculated at next step')+'</span></div>'+
+    '<div class="trow grand"><span class="l">Total</span><span class="r"><span class="cur">USD</span>'+money(total)+'</span></div>';
+  document.querySelectorAll('.js-items').forEach(function(e){e.innerHTML=items});
+  document.querySelectorAll('.js-totals').forEach(function(e){e.innerHTML=totals});
+  document.querySelectorAll('.js-grand').forEach(function(e){e.textContent=money(total)});
+  document.getElementById('subLegal').style.display=sub?'':'none';
+}
+render();
+
+// mobile order-summary accordion
+(function(){
+  var t=document.getElementById('sumToggle'),d=document.getElementById('sumDrawer');
+  t.addEventListener('click',function(){
+    var open=d.classList.toggle('open');
+    t.classList.toggle('open',open);
+    t.setAttribute('aria-expanded',open?'true':'false');
+  });
+})();
+
+// state dropdown
+(function(){
+  var S=['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','District of Columbia','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'];
+  var sel=document.getElementById('state');
+  S.forEach(function(s){var o=document.createElement('option');o.value=s;o.textContent=s;sel.appendChild(o)});
+})();
+
+// Shopify handoff URL for the current cart (payment always happens on Shopify's secure checkout).
+// One-time: plain cart permalink, prefill rides as query params.
+// Subscription: selling plans can't ride a permalink — chain clear -> add(selling_plan) -> checkout.
+function shopifyURL(prefillQS){
+  if(!isSub())return SHOP+'/cart/'+cart.map(function(it){return it.v+':'+it.q}).join(',')+(prefillQS?'?'+prefillQS:'');
+  var dest='/checkout'+(prefillQS?'?'+prefillQS:'');
+  var add='/cart/add?'+cart.map(function(it){return 'items[][id]='+it.v+'&items[][quantity]='+it.q+'&items[][selling_plan]='+SELLING_PLAN}).join('&')+'&return_to='+encodeURIComponent(dest);
+  return SHOP+'/cart/clear?return_to='+encodeURIComponent(add);
+}
+document.querySelectorAll('.js-express').forEach(function(a){a.href=shopifyURL('')});
+
+// hand off to Shopify with contact + delivery pre-filled so nothing gets typed twice
+(function(){
+  var form=document.getElementById('coForm');
+  function val(id){return document.getElementById(id).value.trim()}
+  function mark(fid,bad){
+    document.getElementById(fid).classList.toggle('err',bad);
+    var m=document.querySelector('.err-msg[data-for="'+fid+'"]');
+    if(m)m.classList.toggle('show',bad);
+    return !bad;
+  }
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var ok=true;
+    ok=mark('f-email',!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('email')))&&ok;
+    ok=mark('f-last',!val('last'))&&ok;
+    ok=mark('f-addr',!val('addr'))&&ok;
+    ok=mark('f-city',!val('city'))&&ok;
+    ok=mark('f-state',!val('state'))&&ok;
+    ok=mark('f-zip',!/^\d{5}(-\d{4})?$/.test(val('zip')))&&ok;
+    if(!ok){
+      var first=document.querySelector('.fld.err');
+      if(first)first.scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
+    var P={
+      'checkout[email]':val('email'),
+      'checkout[shipping_address][first_name]':val('first'),
+      'checkout[shipping_address][last_name]':val('last'),
+      'checkout[shipping_address][address1]':val('addr'),
+      'checkout[shipping_address][address2]':val('addr2'),
+      'checkout[shipping_address][city]':val('city'),
+      'checkout[shipping_address][province]':val('state'),
+      'checkout[shipping_address][zip]':val('zip'),
+      'checkout[shipping_address][country]':'United States',
+      'checkout[shipping_address][phone]':val('phone')
+    };
+    var qs=Object.keys(P).filter(function(k){return P[k]}).map(function(k){return k+'='+encodeURIComponent(P[k])}).join('&');
+    var btn=form.querySelector('.pay-btn');
+    btn.textContent='Loading secure payment…';btn.disabled=true;
+    window.location.href=shopifyURL(qs);
+  });
+  ['email','last','addr','city','state','zip'].forEach(function(id){
+    var el=document.getElementById(id);
+    ['input','change'].forEach(function(ev){el.addEventListener(ev,function(){mark('f-'+id,false)})});
+  });
+})();
+</script>
+</body>
+</html>
