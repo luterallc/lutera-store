@@ -395,6 +395,9 @@ window.updateTotals=function(){
     if(ban)ban.innerHTML=fs
       ?'&#127881; You unlocked <b>FREE PRIORITY SHIPPING</b> + the Free At-Home Eye Exam!<div class="csbar"><span style="width:100%"></span></div>'
       :'&#128666; Add <b>$'+(100-total).toFixed(2)+'</b> more to unlock <b>FREE Priority Shipping</b>!<div class="csbar"><span style="width:'+Math.min(96,Math.round(total))+'%"></span></div>';
+    // Shopify-hosted theme can't serve checkout.html — hand off straight to native checkout there
+    var co=document.getElementById('cdCheckout');
+    if(co)co.href=window.Shopify?checkoutURL():'checkout.html';
   }
   window.refreshCartUI=renderCart;
   document.addEventListener('click',function(ev){
